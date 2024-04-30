@@ -24,6 +24,8 @@ CREATE TABLE Meetings(
     date timestamp
 );
 
+DROP PROCEDURE SPInsertUser;
+
 CREATE OR REPLACE PROCEDURE SPInsertUser(
     name varchar,
     email varchar,
@@ -67,9 +69,86 @@ BEGIN
     END IF;
 
     INSERT INTO Users(name, email, address, phoneNumber, type)
-    VALUES (name, email, address, phoneNumber, type);
+    VALUES (name, email, address, phoneNumber, UPPER(type));
 END;
 $$;
 
-CALL SPInsertUser('Pepe', 'pepe@pepe.com', 'Donde pepe', '1234', 'client');
-CALL SPInsertUser('Pepe', 'pepe@pepe.com', 'Donde pepe', '1234', 'client');
+CREATE OR REPLACE PROCEDURE SPInsertClient(
+    name varchar,
+    email varchar,
+    address varchar,
+    phoneNumber varchar
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    CALL SPInsertUser(name, email, address, phoneNumber, 'CLIENT');
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPInsertEmployee(
+    name varchar,
+    email varchar,
+    address varchar,
+    phoneNumber varchar
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    CALL SPInsertUser(name, email, address, phoneNumber, 'EMPLOYEE');
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPUpdateUserByID(
+    inId int,
+    inName varchar,
+    inEmail varchar,
+    inAddress varchar,
+    inPhoneNumber varchar
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF inName IS NULL OR inName = '' OR LENGTH(inName) > 100 THEN
+        RAISE EXCEPTION 'Name cannot be null, empty or greater than 100 characters.';
+    END IF;
+
+    IF inEmail IS NULL OR inEmail = '' THEN
+        RAISE EXCEPTION 'Email cannot be null or empty.';
+    END IF;
+
+    IF  NOT(inEmail ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$') THEN
+        RAISE EXCEPTION 'Email format is not correct.';
+    END IF;
+
+    IF inAddress IS NULL THEN
+        RAISE EXCEPTION 'Address cannot be null or empty.';
+    END IF;
+
+    IF LENGTH(inAddress) > 512 THEN
+        RAISE EXCEPTION 'Address cannot be greater than 512 characters.';
+    END IF;
+
+    IF inPhoneNumber IS NULL OR inPhoneNumber = '' THEN
+         RAISE EXCEPTION 'PhoneNumber cannot be null or empty.';
+    END IF;
+
+    IF NOT (inPhoneNumber ~ '^[0-9]+$' OR inPhoneNumber ~ '^\+[0-9]+$') THEN
+        RAISE EXCEPTION 'PhoneNumber only can contain numbers or start with a + followed by numbers.';
+    END IF;
+
+    UPDATE Users
+    SET name = inName, email = inEmail, address = inAddress, phoneNumber = inPhoneNumber
+    WHERE id = inId;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPDeleteUserByID(
+    inId int
+)LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM Users
+    WHERE id = inId;
+END;
+$$;
