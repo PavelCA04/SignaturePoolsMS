@@ -15,7 +15,7 @@ CREATE TABLE Inventory(
     id SERIAL PRIMARY KEY,
     name varchar(100),
     description varchar(512),
-    unitAvailable int
+    unitsAvailable int
 );
 
 CREATE TABLE Meetings(
@@ -24,9 +24,9 @@ CREATE TABLE Meetings(
     date timestamp
 );
 
-DROP PROCEDURE SPInsertUser;
+DROP PROCEDURE SPICreateUser;
 
-CREATE OR REPLACE PROCEDURE SPInsertUser(
+CREATE OR REPLACE PROCEDURE SPICreateUser(
     name varchar,
     email varchar,
     address varchar,
@@ -73,7 +73,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE SPInsertClient(
+CREATE OR REPLACE PROCEDURE SPCreateClient(
     name varchar,
     email varchar,
     address varchar,
@@ -82,11 +82,11 @@ CREATE OR REPLACE PROCEDURE SPInsertClient(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    CALL SPInsertUser(name, email, address, phoneNumber, 'CLIENT');
+    CALL SPICreateUser(name, email, address, phoneNumber, 'CLIENT');
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE SPInsertEmployee(
+CREATE OR REPLACE PROCEDURE SPCreateEmployee(
     name varchar,
     email varchar,
     address varchar,
@@ -95,7 +95,7 @@ CREATE OR REPLACE PROCEDURE SPInsertEmployee(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    CALL SPInsertUser(name, email, address, phoneNumber, 'EMPLOYEE');
+    CALL SPICreateUser(name, email, address, phoneNumber, 'EMPLOYEE');
 END;
 $$;
 
@@ -145,10 +145,71 @@ $$;
 
 CREATE OR REPLACE PROCEDURE SPDeleteUserByID(
     inId int
-)LANGUAGE plpgsql
+)
+LANGUAGE plpgsql
 AS $$
 BEGIN
     DELETE FROM Users
+    WHERE id = inId;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPCreateItem(
+    name varchar,
+    description varchar,
+    unitsAvailable int
+)LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF name IS NULL OR name = '' OR LENGTH(name) > 100 THEN
+        RAISE EXCEPTION 'Name cannot be null, empty or greater than 100 characters.';
+    END IF;
+
+    IF description IS NULL OR description = '' OR LENGTH(description) > 512 THEN
+        RAISE EXCEPTION 'Address cannot be null or greater than 512 characters.';
+    END IF;
+
+    IF unitsAvailable < 0 THEN
+        RAISE EXCEPTION 'Units Availabe cannot be less than 0.';
+    END IF;
+
+    INSERT INTO Inventory(name, description, unitsAvailable)
+    VALUES (name, description, unitsAvailable);
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPUpdateItemByID(
+    inId int,
+    inName varchar,
+    inDescription varchar,
+    inUnitsAvailable int
+) LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF inName IS NULL OR inName = '' OR LENGTH(inName) > 100 THEN
+        RAISE EXCEPTION 'Name cannot be null, empty or greater than 100 characters.';
+    END IF;
+
+    IF inDescription IS NULL OR inDescription = '' OR LENGTH(inDescription) > 512 THEN
+        RAISE EXCEPTION 'Address cannot be null or greater than 512 characters.';
+    END IF;
+
+    IF inUnitsAvailable < 0 THEN
+        RAISE EXCEPTION 'Units Availabe cannot be less than 0.';
+    END IF;
+
+    UPDATE Inventory
+    SET name = inName, description = inDescription, unitsAvailable = inUnitsAvailable
+    WHERE id = inId;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPDeleteItemByID(
+    inId int
+) LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM Inventory
     WHERE id = inId;
 END;
 $$;
