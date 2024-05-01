@@ -213,3 +213,48 @@ BEGIN
     WHERE id = inId;
 END;
 $$;
+
+CREATE OR REPLACE PROCEDURE SPInsertMeeting(
+    name varchar(100),
+    date timestamp
+) LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    IF name IS NULL OR name = '' OR LENGTH(name) > 100 THEN
+        RAISE EXCEPTION 'Name cannot be null, empty or greater than 100 characters.';
+    END IF;
+
+    INSERT INTO Meetings(name, date)
+    VALUES (name, date);
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPUpdateMeetingByID(
+    inId int,
+    inName varchar,
+    inDate timestamp
+) LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    IF inName IS NULL OR inName = '' OR LENGTH(inName) > 100 THEN
+        RAISE EXCEPTION 'Name cannot be null, empty or greater than 100 characters.';
+    END IF;
+
+    UPDATE Meetings
+    SET name = inName, date = inDate
+    WHERE id = inId;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPDeleteMeetingByID(
+    inId int
+) LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    DELETE FROM Meetings
+    WHERE id = inId;
+END;
+$$;
