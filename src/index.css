@@ -1145,6 +1145,11 @@ caption {
   }
 }
 
+.darkblue-popup {
+  background-color: var(--darkblue); /* Dark blue */
+  color: var(--white);           /* Light text color for contrast */
+}
+
 /*
  * Navigation
  */

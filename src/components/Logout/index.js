@@ -9,11 +9,17 @@ const Logout = ({ setIsAuthenticated }) => {
       text: 'Are you sure you want to log out?',
       showCancelButton: true,
       confirmButtonText: 'Yes',
+      customClass: {
+        popup: 'darkblue-popup',
+      },
     }).then(result => {
       if (result.value) {
         Swal.fire({
           timer: 1500,
           showConfirmButton: false,
+          customClass: {
+            popup: 'darkblue-popup',
+          },
           willOpen: () => {
             Swal.showLoading();
           },

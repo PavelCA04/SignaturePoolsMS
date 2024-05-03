@@ -40,7 +40,7 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
                 <td className="text-right">
                   <button
                     onClick={() => handleEdit(employee.id)}
-                    className="button muted-button"
+                    
                   >
                     Edit
                   </button>
