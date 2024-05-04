@@ -195,6 +195,77 @@ const removeEmployee = (req, res) => {
     })
 }
 
+// Inventory Functions
+const addItem = (req, res) => {
+    const { name, description, unitsAvailable } = req.body;
+
+    pool.query(queries.addItem, [name, description, unitsAvailable], (error, results) => {
+        if (error){
+            res.status(500).send("Item not created correctly");
+            console.log(error.message);
+        } else{
+            res.status(201).send("Item created successfully");
+        }
+    })
+}
+
+const getItems = (req, res) => {
+    pool.query(queries.getItems, (error, results) => {
+        if(error){
+            res.status(500).json("Item not available");
+            console.log(error.message);
+        } else{
+            res.status(200).json(results.rows);
+        }
+    });
+};
+
+const getItemById = (req, res) => {
+    const id = parseInt(req.params.id);
+    pool.query(queries.getItemById, [id], (error, results) => {
+        if (error){
+            res.status(500).json("Item not found");
+            console.log(error.message);
+        } else{
+            res.status(200).json(results.rows);
+        };
+    } )
+}
+
+const updateItem = (req, res) => {
+    const id = parseInt(req.params.id);
+
+    pool.query(queries.getItemById, [id], (error, results) => {
+        const clientNotFound = !results.rows.length;
+        if (clientNotFound) {
+            res.send("Item not found.")
+        } else {
+            const { name, description, unitsAvailable} = req.body;
+
+            pool.query(queries.updateItem, [id, name, description, unitsAvailable], (error, results) => {
+                if(error){
+                    res.status(500).send("Item not updated correctly");
+                    console.log(error.message);
+                } else {
+                    res.status(201).send("Item Updated Successfully");
+                };
+            })
+        }
+    })
+}
+
+const removeItem = (req, res) => {
+    const id = parseInt(req.params.id);
+
+    pool.query(queries.removeItem, [id], (error, results) => {
+        if (error){
+            console.log(error.message);
+        } else{
+            res.status(200).send("Item remove successfully");
+        };
+    })
+}
+
 module.exports = {
     getUsers,
     getUsersById,
@@ -215,4 +286,11 @@ module.exports = {
     getEmployeeById,
     updateEmployee,
     removeEmployee,
+
+    // Inventory
+    addItem,
+    getItems,
+    getItemById,
+    updateItem,
+    removeItem,
 };

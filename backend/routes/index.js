@@ -24,4 +24,11 @@ router.get('/employees/:id', controller.getEmployeeById);
 router.put('/employees/:id', controller.updateEmployee);
 router.delete('/employees/:id', controller.removeEmployee);
 
+// Inventory routes
+router.post('/items/', controller.addItem);
+router.get('/items/', controller.getItems);
+router.get('/items/:id', controller.getItemById);
+router.put('/items/:id', controller.updateItem);
+router.delete('/items/:id', controller.removeItem);
+
 module.exports = router;

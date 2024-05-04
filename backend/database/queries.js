@@ -56,6 +56,29 @@ const removeEmployee = `
     CALL SPDeleteUserByID($1);
 `;
 
+// Inventory CRUD
+const addItem = `
+    CALL SPCreateItem($1, $2, $3);
+`
+
+const getItems = `
+    SELECT *
+    FROM Inventory;
+`;
+
+const getItemById = `
+    SELECT *
+    FROM Inventory
+    WHERE id = $1;
+`;
+
+const updateItem = `
+    CALL SPUpdateItemByID($1, $2, $3, $4);
+`
+
+const removeItem = `
+    CALL SPDeleteItemByID($1);
+`
 
 
 module.exports = {
@@ -79,6 +102,10 @@ module.exports = {
     updateEmployee,
     removeEmployee,
 
-
-
+    // Inventory
+    addItem,
+    getItems,
+    getItemById,
+    updateItem,
+    removeItem,
 };
