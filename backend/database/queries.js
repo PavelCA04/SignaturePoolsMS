@@ -73,7 +73,7 @@ const getItemById = `
 `;
 
 const updateItem = `
-    CALL SPUpdateItemByID($1, $2, $3);
+    CALL SPUpdateItemByID($1, $2, $3, $4);
 `
 
 const removeItem = `
