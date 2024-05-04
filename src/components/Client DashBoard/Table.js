@@ -20,8 +20,8 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Salary</th>
-            <th>Date</th>
+            <th>Direction</th>
+            <th>Phone Number</th>
             <th colSpan={2} className="text-center">
               Actions
             </th>
@@ -35,8 +35,8 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>
                 <td>{employee.email}</td>
-                <td>{formatter.format(employee.salary)}</td>
-                <td>{employee.date} </td>
+                <td>{formatter.format(employee.direction)}</td>
+                <td>{employee.phonenumber} </td>
                 <td className="text-right">
                   <button
                     onClick={() => handleEdit(employee.id)}
