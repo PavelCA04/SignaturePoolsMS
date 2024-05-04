@@ -23,11 +23,15 @@
 
  :root {
   --dark: #0D0B14;
-  --red: #FF6565;
+  --red: #d33c40;
   --green: #13F287;
   --darkblue: #100E17;
   --white: #BEC2DA  ;
   --blue: #0366ee;
+  --grey: #9a9a9a;
+  --lightblue: #8cbcfe;
+  --lightgreen: #90EE90;
+  --lightred: #FF6565;
   --stroke: #
 }
 
@@ -388,11 +392,12 @@ html {
   font: normal normal normal 1rem/1.6 -apple-system, BlinkMacSystemFont,
     Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 1rem;
+  color: var(--white);
 }
 
 body {
   color: (var(--white));
-  background: var(---dark);
+  background: var(--dark);
   font-size: 1rem;
 }
 
@@ -519,7 +524,7 @@ pre {
   background: transparent;
   padding: 1rem;
   tab-size: 2;
-  color: #404040;
+  color: var(--white);
   font-family: Menlo, monospace;
   font-size: 14px;
   margin: 0 0 1.5rem 0;
@@ -546,7 +551,7 @@ kbd {
 }
 
 :not(pre) > code {
-  color: #404040;
+  color: var(--white);
   background: transparent;
   font-family: Menlo, monospace;
   font-size: 14px;
@@ -770,8 +775,8 @@ dd {
 }
 
 .alternate-background {
-  background: var(--dark);
-  color: var(--dark);
+  background: var(--darkblue);
+  color: var(--darkblue);
 }
 
 .space-between {
@@ -807,8 +812,8 @@ button,
   display: inline-block;
   border: 1px solid var(--green);
   border-radius: 4px;
-  background: var(--dark);
-  color: var(--white);
+  background: var(--darkblue);
+  color: var(--grey);
   font-weight: 600;
   font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica,
     Arial, sans-serif;
@@ -829,9 +834,9 @@ button:hover,
 [type='submit']:hover,
 [type='reset']:hover,
 [type='button']:hover {
-  border: 1px solid var(--blue);
+  border: 1px solid var(--lightgreen); 
   background: var(--darkblue);
-  color: var(--white);
+  color: var(--lightgreen);
   text-decoration: none;
 }
 
@@ -847,8 +852,8 @@ button:active,
 [type='reset']:active,
 [type='button']:focus,
 [type='button']:active {
-  border: 1px solid #0250bc;
-  background: #0250bc;
+  border: 1px solid var(--green);
+  background: var(--darkblue);
   color: var(--white);
   text-decoration: none;
 }
@@ -866,7 +871,7 @@ button::-moz-focus-inner,
 .accent-button,
 a.accent-button {
   color: var(--white);
-  border: 1px solid #29de7d;
+  border: 1px solid var(--green);
   background: #29de7d;
 }
 
@@ -877,15 +882,15 @@ a.accent-button:hover,
 a.accent-button:focus,
 a.accent-button:active {
   color: var(--white);
-  border: 1px solid #1cb864;
-  background: #1cb864;
+  border: 1px solid var(--green);
+  background: var(--green);
 }
 
 .muted-button,
 a.muted-button {
   background: transparent;
-  border: 1px solid #cdcdcd;
-  color: #4e4e4e;
+  border: 1px solid var(--red);
+  color: var(--grey);
 }
 
 .muted-button:hover,
@@ -894,8 +899,8 @@ a.muted-button {
 a.muted-button:hover,
 a.muted-button:focus,
 a.muted-button:active {
-  color: var(--white);
-  border: 1px solid var(--red);
+  color: var(--lightred);
+  border: 1px solid var(--lightred);
   background: transparent;
 }
 
@@ -935,13 +940,14 @@ a.full-button {
 select,
 textarea {
   display: block;
-  border: 1px solid var(--dark);
+  border: 1px solid var(--grey);
   border-radius: 4px;
   padding: 0.75rem;
   outline: none;
   background: transparent;
   margin-bottom: 0.5rem;
   font-size: 1rem;
+  color:var(--white);
   width: 100%;
   max-width: 100%;
   line-height: 1;
@@ -963,7 +969,7 @@ textarea {
 [type='time']:hover,
 select:hover,
 textarea:hover {
-  border: 1px solid var(--dark);
+  border: 1px solid var(--lightgreen);/*fix*/
 }
 
 [type='color']:focus,
@@ -1064,7 +1070,7 @@ textarea.has-error:hover,
 textarea.has-error:focus,
 textarea.has-error:active {
   border: 1px solid #d33c40;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 6px #f4cecf;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 6px var(--red);
 }
 
 input.is-success,
@@ -1087,7 +1093,7 @@ textarea.is-success:active {
 ::-moz-placeholder,
 :-moz-placeholder,
 :-ms-input-placeholder {
-  color: #9a9a9a;
+  color: var(--grey);
 }
 
 /**
@@ -1101,15 +1107,15 @@ table {
 }
 
 thead th {
-  border-bottom: 2px solid var(--dark);
+  border-bottom: 2px solid var(--grey);
 }
 
 tfoot th {
-  border-top: 2px solid var(--dark);
+  border-top: 2px solid var(--grey);
 }
 
 td {
-  border-bottom: 1px solid var(--dark);
+  border-bottom: 1px solid var(--grey);
 }
 
 th,
@@ -1121,7 +1127,7 @@ td {
 caption {
   padding: 1rem 0;
   caption-side: bottom;
-  color: #ababab;
+  color: var(--grey);
 }
 
 .striped-table tbody {
@@ -1137,6 +1143,11 @@ caption {
     width: 100%;
     color: var(--white);
   }
+}
+
+.darkblue-popup {
+  background-color: var(--darkblue); /* Dark blue */
+  color: var(--white);           /* Light text color for contrast */
 }
 
 /*

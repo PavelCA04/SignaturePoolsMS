@@ -15,6 +15,9 @@ const Login = ({ setIsAuthenticated }) => {
       Swal.fire({
         timer: 1500,
         showConfirmButton: false,
+        customClass: {
+          popup: 'darkblue-popup',
+        },
         willOpen: () => {
           Swal.showLoading();
         },
@@ -27,6 +30,9 @@ const Login = ({ setIsAuthenticated }) => {
             title: 'Successfully logged in!',
             showConfirmButton: false,
             timer: 1500,
+            customClass: {
+              popup: 'darkblue-popup',
+            },
           });
         },
       });
@@ -34,6 +40,9 @@ const Login = ({ setIsAuthenticated }) => {
       Swal.fire({
         timer: 1500,
         showConfirmButton: false,
+        customClass: {
+          popup: 'darkblue-popup',
+        },
         willOpen: () => {
           Swal.showLoading();
         },
@@ -43,6 +52,9 @@ const Login = ({ setIsAuthenticated }) => {
             title: 'Error!',
             text: 'Incorrect email or password.',
             showConfirmButton: true,
+            customClass: {
+              popup: 'darkblue-popup',
+            },
           });
         },
       });
