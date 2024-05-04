@@ -17,11 +17,11 @@ const Table = ({ meetings, handleEdit, handleDelete }) => {
         <thead>
           <tr>
             <th>No.</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Direction</th>
-            <th>Phone Number</th>
+            <th>Meeting Name</th>
+            <th>Client Name</th>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Date/Hour</th>
             <th colSpan={2} className="text-center">
               Actions
             </th>
@@ -32,11 +32,11 @@ const Table = ({ meetings, handleEdit, handleDelete }) => {
             meetings.map((meeting, i) => (
               <tr key={meeting.id}>
                 <td>{i + 1}</td>
-                <td>{meeting.firstName}</td>
-                <td>{meeting.lastName}</td>
-                <td>{meeting.email}</td>
-                <td>{formatter.format(meeting.direction)}</td>
-                <td>{meeting.phonenumber} </td>
+                <td>{meeting.name}</td>
+                <td>{meeting.clientname}</td>
+                <td>{meeting.description}</td>
+                <td>{formatter.format(meeting.location)}</td>
+                <td>{meeting.date} </td>
                 <td className="text-right">
                   <button
                     onClick={() => handleEdit(meeting.id)}

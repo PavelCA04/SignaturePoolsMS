@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const Add = ({ clients, setClients, setIsAdding }) => {
+const Add = ({ meetings, setMeetings, setIsAdding }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -23,8 +23,8 @@ const Add = ({ clients, setClients, setIsAdding }) => {
       });
     }
 
-    const id = clients.length + 1;
-    const newClient = {
+    const id = meetings.length + 1;
+    const newMeeting = {
       id,
       firstName,
       lastName,
@@ -33,9 +33,9 @@ const Add = ({ clients, setClients, setIsAdding }) => {
       date,
     };
 
-    clients.push(newClient);
-    localStorage.setItem('clients_data', JSON.stringify(clients));
-    setClients(clients);
+    meetings.push(newMeeting);
+    localStorage.setItem('meetings_data', JSON.stringify(meetings));
+    setMeetings(meetings);
     setIsAdding(false);
 
     Swal.fire({
@@ -53,8 +53,8 @@ const Add = ({ clients, setClients, setIsAdding }) => {
   return (
     <div className="small-container">
       <form onSubmit={handleAdd}>
-        <h1>Add Client</h1>
-        <label htmlFor="firstName">First Name</label>
+        <h1>Add Meeting</h1>
+        <label htmlFor="firstName">Meeting Name</label>
         <input
           id="firstName"
           type="text"
@@ -62,7 +62,7 @@ const Add = ({ clients, setClients, setIsAdding }) => {
           value={firstName}
           onChange={e => setFirstName(e.target.value)}
         />
-        <label htmlFor="lastName">Last Name</label>
+        <label htmlFor="lastName">Client Name</label>
         <input
           id="lastName"
           type="text"
@@ -70,7 +70,7 @@ const Add = ({ clients, setClients, setIsAdding }) => {
           value={lastName}
           onChange={e => setLastName(e.target.value)}
         />
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Description</label>
         <input
           id="email"
           type="email"
@@ -78,7 +78,7 @@ const Add = ({ clients, setClients, setIsAdding }) => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Salary ($)</label>
+        <label htmlFor="salary">Address</label>
         <input
           id="salary"
           type="number"
@@ -86,7 +86,7 @@ const Add = ({ clients, setClients, setIsAdding }) => {
           value={salary}
           onChange={e => setSalary(e.target.value)}
         />
-        <label htmlFor="date">Date</label>
+        <label htmlFor="date">Date/Hour</label>
         <input
           id="date"
           type="date"

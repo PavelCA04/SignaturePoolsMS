@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const Add = ({ employees, setEmployees, setIsAdding }) => {
+const Add = ({ clients, setClients, setIsAdding }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -23,8 +23,8 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       });
     }
 
-    const id = employees.length + 1;
-    const newEmployee = {
+    const id = clients.length + 1;
+    const newClient = {
       id,
       firstName,
       lastName,
@@ -33,9 +33,9 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       date,
     };
 
-    employees.push(newEmployee);
-    localStorage.setItem('employees_data', JSON.stringify(employees));
-    setEmployees(employees);
+    clients.push(newClient);
+    localStorage.setItem('clients_data', JSON.stringify(clients));
+    setClients(clients);
     setIsAdding(false);
 
     Swal.fire({
@@ -53,7 +53,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
   return (
     <div className="small-container">
       <form onSubmit={handleAdd}>
-        <h1>Add Employee</h1>
+        <h1>Add Client</h1>
         <label htmlFor="firstName">First Name</label>
         <input
           id="firstName"
@@ -78,7 +78,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Salary ($)</label>
+        <label htmlFor="salary">Home Address</label>
         <input
           id="salary"
           type="number"
@@ -86,7 +86,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           value={salary}
           onChange={e => setSalary(e.target.value)}
         />
-        <label htmlFor="date">Date</label>
+        <label htmlFor="date">Phone Number</label>
         <input
           id="date"
           type="date"

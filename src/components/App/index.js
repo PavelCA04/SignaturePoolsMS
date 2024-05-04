@@ -22,3 +22,17 @@ const App = () => {
 };
 
 export default App;
+/*
+import React from 'react';
+import HamburgerMenu from './HamburgerMenu';
+
+function App() {
+  return (
+    <div className="App">
+      <HamburgerMenu />
+    </div>
+  );
+}
+
+export default App;
+*/

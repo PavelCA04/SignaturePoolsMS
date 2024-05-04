@@ -78,7 +78,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Salary ($)</label>
+        <label htmlFor="salary">Home Address ($)</label>
         <input
           id="salary"
           type="number"
@@ -86,7 +86,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           value={salary}
           onChange={e => setSalary(e.target.value)}
         />
-        <label htmlFor="date">Date</label>
+        <label htmlFor="date">Phone Number</label>
         <input
           id="date"
           type="date"

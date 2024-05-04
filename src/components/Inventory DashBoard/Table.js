@@ -17,11 +17,11 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
         <thead>
           <tr>
             <th>No.</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Cost</th>
-            <th>Date</th>
+            <th>Item Name</th>
+            <th>Description</th>
+            <th>Units Available</th>
+            <th>Price per Unit ($)</th>
+            <th>Total Price ($)</th>
             <th colSpan={2} className="text-center">
               Actions
             </th>

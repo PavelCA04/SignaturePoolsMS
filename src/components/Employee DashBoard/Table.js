@@ -20,7 +20,7 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-            <th>Direction</th>
+            <th>Home Address</th>
             <th>Phone Number</th>
             <th colSpan={2} className="text-center">
               Actions

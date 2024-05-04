@@ -6,23 +6,23 @@ import Table from './Table';
 import Add from './Add';
 import Edit from './Edit';
 
-import { employeesData } from '../../data';
+import { clientsData } from '../../data';
 
 const Dashboard = ({ setIsAuthenticated }) => {
-  const [employees, setEmployees] = useState(employeesData);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [clients, setClients] = useState(clientsData);
+  const [selectedClient, setSelectedClient] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('employees_data'));
-    if (data !== null && Object.keys(data).length !== 0) setEmployees(data);
+    const data = JSON.parse(localStorage.getItem('clients_data'));
+    if (data !== null && Object.keys(data).length !== 0) setClients(data);
   }, []);
 
   const handleEdit = id => {
-    const [employee] = employees.filter(employee => employee.id === id);
+    const [client] = clients.filter(client => client.id === id);
 
-    setSelectedEmployee(employee);
+    setSelectedClient(client);
     setIsEditing(true);
   };
 
@@ -41,12 +41,12 @@ const Dashboard = ({ setIsAuthenticated }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
-        const [employee] = employees.filter((employee) => employee.id === id);
+        const [client] = clients.filter((client) => client.id === id);
   
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: `${employee.firstName} ${employee.lastName}'s data has been deleted.`,
+          text: `${client.firstName} ${client.lastName}'s data has been deleted.`,
           showConfirmButton: false,
           timer: 1500,
           customClass: {
@@ -54,9 +54,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
           },
         });
   
-        const employeesCopy = employees.filter((employee) => employee.id !== id);
-        localStorage.setItem('employees_data', JSON.stringify(employeesCopy));
-        setEmployees(employeesCopy);
+        const clientsCopy = clients.filter((client) => client.id !== id);
+        localStorage.setItem('clients_data', JSON.stringify(clientsCopy));
+        setClients(clientsCopy);
       }
     });
   };
@@ -72,7 +72,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
             setIsAuthenticated={setIsAuthenticated}
           />
           <Table
-            employees={employees}
+            clients={clients}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />
@@ -80,16 +80,16 @@ const Dashboard = ({ setIsAuthenticated }) => {
       )}
       {isAdding && (
         <Add
-          employees={employees}
-          setEmployees={setEmployees}
+          clients={clients}
+          setClients={setClients}
           setIsAdding={setIsAdding}
         />
       )}
       {isEditing && (
         <Edit
-          employees={employees}
-          selectedEmployee={selectedEmployee}
-          setEmployees={setEmployees}
+          clients={clients}
+          selectedClient={selectedClient}
+          setClients={setClients}
           setIsEditing={setIsEditing}
         />
       )}

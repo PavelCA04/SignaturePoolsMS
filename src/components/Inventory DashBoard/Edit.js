@@ -60,8 +60,8 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
   return (
     <div className="small-container">
       <form onSubmit={handleUpdate}>
-        <h1>Edit Employee</h1>
-        <label htmlFor="firstName">First Name</label>
+        <h1>Edit Item</h1>
+        <label htmlFor="firstName">Item Name</label>
         <input
           id="firstName"
           type="text"
@@ -69,7 +69,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           value={firstName}
           onChange={e => setFirstName(e.target.value)}
         />
-        <label htmlFor="lastName">Last Name</label>
+        <label htmlFor="lastName">Description</label>
         <input
           id="lastName"
           type="text"
@@ -77,7 +77,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           value={lastName}
           onChange={e => setLastName(e.target.value)}
         />
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Units Available</label>
         <input
           id="email"
           type="email"
@@ -85,7 +85,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Salary ($)</label>
+        <label htmlFor="salary">Price per Unit ($)</label>
         <input
           id="salary"
           type="number"
@@ -93,7 +93,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           value={salary}
           onChange={e => setSalary(e.target.value)}
         />
-        <label htmlFor="date">Date</label>
+        <label htmlFor="date">Total Price ($)</label>
         <input
           id="date"
           type="date"

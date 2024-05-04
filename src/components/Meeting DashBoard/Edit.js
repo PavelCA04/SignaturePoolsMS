@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
-  const id = selectedClient.id;
+const Edit = ({ meetings, selectedMeeting, setMeetings, setIsEditing }) => {
+  const id = selectedMeeting.id;
 
-  const [firstName, setFirstName] = useState(selectedClient.firstName);
-  const [lastName, setLastName] = useState(selectedClient.lastName);
-  const [email, setEmail] = useState(selectedClient.email);
-  const [salary, setSalary] = useState(selectedClient.salary);
-  const [date, setDate] = useState(selectedClient.date);
+  const [firstName, setFirstName] = useState(selectedMeeting.firstName);
+  const [lastName, setLastName] = useState(selectedMeeting.lastName);
+  const [email, setEmail] = useState(selectedMeeting.email);
+  const [salary, setSalary] = useState(selectedMeeting.salary);
+  const [date, setDate] = useState(selectedMeeting.date);
 
   const handleUpdate = e => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
       });
     }
 
-    const client = {
+    const meeting = {
       id,
       firstName,
       lastName,
@@ -34,21 +34,21 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
       date,
     };
 
-    for (let i = 0; i < clients.length; i++) {
-      if (clients[i].id === id) {
-        clients.splice(i, 1, client);
+    for (let i = 0; i < meetings.length; i++) {
+      if (meetings[i].id === id) {
+        meetings.splice(i, 1, meeting);
         break;
       }
     }
 
-    localStorage.setItem('clients_data', JSON.stringify(clients));
-    setClients(clients);
+    localStorage.setItem('meetings_data', JSON.stringify(meetings));
+    setMeetings(meetings);
     setIsEditing(false);
 
     Swal.fire({
       icon: 'success',
       title: 'Updated!',
-      text: `${client.firstName} ${client.lastName}'s data has been updated.`,
+      text: `${meeting.firstName} ${meeting.lastName}'s data has been updated.`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {
@@ -60,8 +60,8 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
   return (
     <div className="small-container">
       <form onSubmit={handleUpdate}>
-        <h1>Edit Client</h1>
-        <label htmlFor="firstName">First Name</label>
+        <h1>Edit Meeting</h1>
+        <label htmlFor="firstName">Meeting Name</label>
         <input
           id="firstName"
           type="text"
@@ -69,7 +69,7 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
           value={firstName}
           onChange={e => setFirstName(e.target.value)}
         />
-        <label htmlFor="lastName">Last Name</label>
+        <label htmlFor="lastName">Client Name</label>
         <input
           id="lastName"
           type="text"
@@ -77,7 +77,7 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
           value={lastName}
           onChange={e => setLastName(e.target.value)}
         />
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Description</label>
         <input
           id="email"
           type="email"
@@ -85,7 +85,7 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Salary ($)</label>
+        <label htmlFor="salary">Address</label>
         <input
           id="salary"
           type="number"
@@ -93,7 +93,7 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
           value={salary}
           onChange={e => setSalary(e.target.value)}
         />
-        <label htmlFor="date">Date</label>
+        <label htmlFor="date">Date/Hour</label>
         <input
           id="date"
           type="date"

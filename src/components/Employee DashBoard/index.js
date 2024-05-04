@@ -50,7 +50,8 @@ const Dashboard = ({ setIsAuthenticated }) => {
           showConfirmButton: false,
           timer: 1500,
           customClass: {
-            popup: 'darkblue-popup', // Applying the custom class again
+            popup: 'darkblue-popup', 
+            confirmButton: 'button muted-button'
           },
         });
   
