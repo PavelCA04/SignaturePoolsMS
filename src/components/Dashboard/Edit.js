@@ -19,6 +19,9 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
         title: 'Error!',
         text: 'All fields are required.',
         showConfirmButton: true,
+        customClass: {
+          popup: 'darkblue-popup',
+        },
       });
     }
 
@@ -48,6 +51,9 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       text: `${employee.firstName} ${employee.lastName}'s data has been updated.`,
       showConfirmButton: false,
       timer: 1500,
+      customClass: {
+        popup: 'darkblue-popup',
+      },
     });
   };
 

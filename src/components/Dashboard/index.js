@@ -26,7 +26,8 @@ const Dashboard = ({ setIsAuthenticated }) => {
     setIsEditing(true);
   };
 
-  const handleDelete = id => {
+  
+  const handleDelete = (id) => {
     Swal.fire({
       icon: 'warning',
       title: 'Are you sure?',
@@ -34,24 +35,33 @@ const Dashboard = ({ setIsAuthenticated }) => {
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'No, cancel!',
-    }).then(result => {
-      if (result.value) {
-        const [employee] = employees.filter(employee => employee.id === id);
-
+      customClass: {
+        popup: 'darkblue-popup', // Adding the custom class
+        confirmButton: 'button muted-button'
+      },
+    }).then((result) => {
+      if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
+        const [employee] = employees.filter((employee) => employee.id === id);
+  
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
           text: `${employee.firstName} ${employee.lastName}'s data has been deleted.`,
           showConfirmButton: false,
           timer: 1500,
+          customClass: {
+            popup: 'darkblue-popup', // Applying the custom class again
+          },
         });
-
-        const employeesCopy = employees.filter(employee => employee.id !== id);
+  
+        const employeesCopy = employees.filter((employee) => employee.id !== id);
         localStorage.setItem('employees_data', JSON.stringify(employeesCopy));
         setEmployees(employeesCopy);
       }
     });
   };
+  
+
 
   return (
     <div className="container">

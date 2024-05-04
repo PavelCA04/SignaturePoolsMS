@@ -17,6 +17,9 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
         title: 'Error!',
         text: 'All fields are required.',
         showConfirmButton: true,
+        customClass: {
+          popup: 'darkblue-popup',
+        },
       });
     }
 
@@ -41,6 +44,9 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       text: `${firstName} ${lastName}'s data has been Added.`,
       showConfirmButton: false,
       timer: 1500,
+      customClass: {
+        popup: 'darkblue-popup',
+      },
     });
   };
 
