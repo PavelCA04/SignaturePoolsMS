@@ -214,7 +214,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE SPInsertMeeting(
+CREATE OR REPLACE PROCEDURE SPCreateMeeting(
     name varchar(100),
     date timestamp
 ) LANGUAGE plpgsql
@@ -258,3 +258,8 @@ BEGIN
     WHERE id = inId;
 END;
 $$;
+
+CALL SPICreateUser('fran', 'f@f.com', 'donde fran', '3333', 'employee');
+
+CALL SPCreateClient('perros', 'p@p.com', 'fd', '334523423');
+
