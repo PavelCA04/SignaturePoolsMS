@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Login from '../Login';
-import Dashboard from '../Dashboard';
+import InventoryDashboard from '../Inventory DashBoard';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -13,7 +13,7 @@ const App = () => {
   return (
     <>
       {isAuthenticated ? (
-        <Dashboard setIsAuthenticated={setIsAuthenticated} />
+        <InventoryDashboard setIsAuthenticated={setIsAuthenticated} />
       ) : (
         <Login setIsAuthenticated={setIsAuthenticated} />
       )}
@@ -22,3 +22,17 @@ const App = () => {
 };
 
 export default App;
+/*
+import React from 'react';
+import HamburgerMenu from './HamburgerMenu';
+
+function App() {
+  return (
+    <div className="App">
+      <HamburgerMenu />
+    </div>
+  );
+}
+
+export default App;
+*/
