@@ -73,12 +73,36 @@ const getItemById = `
 `;
 
 const updateItem = `
-    CALL SPUpdateItemByID($1, $2, $3, $4);
+    CALL SPUpdateItemByID($1, $2, $3);
 `
 
 const removeItem = `
     CALL SPDeleteItemByID($1);
 `
+
+// Meeting CRUD
+const addMeeting = `
+    CALL SPInsertMeeting($1, $2);
+`;
+
+const getMeetings = `
+    SELECT *
+    FROM Meetings;
+`;
+
+const getMeetingById = `
+    SELECT *
+    FROM Meetings
+    WHERE id = $1;
+`;
+
+const updateMeeting = `
+    CALL SPUpdateMeetingByID($1, $2, $3);
+`;
+
+const removeMeeting = `
+    CALL SPDeleteMeetingByID($1);
+`;
 
 
 module.exports = {
@@ -108,4 +132,11 @@ module.exports = {
     getItemById,
     updateItem,
     removeItem,
+
+    // Meeting
+    addMeeting,
+    getMeetings,
+    getMeetingById,
+    updateMeeting,
+    removeMeeting,
 };
