@@ -24,9 +24,7 @@ CREATE TABLE Meetings(
     date timestamp
 );
 
-DROP PROCEDURE SPICreateUser;
-
-CREATE OR REPLACE PROCEDURE SPICreateUser(
+CREATE OR REPLACE PROCEDURE SPCreateUser(
     name varchar,
     email varchar,
     address varchar,
@@ -82,7 +80,7 @@ CREATE OR REPLACE PROCEDURE SPCreateClient(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    CALL SPICreateUser(name, email, address, phoneNumber, 'CLIENT');
+    CALL SPCreateUser(name, email, address, phoneNumber, 'CLIENT');
 END;
 $$;
 
@@ -95,7 +93,7 @@ CREATE OR REPLACE PROCEDURE SPCreateEmployee(
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    CALL SPICreateUser(name, email, address, phoneNumber, 'EMPLOYEE');
+    CALL SPCreateUser(name, email, address, phoneNumber, 'EMPLOYEE');
 END;
 $$;
 
@@ -259,7 +257,7 @@ BEGIN
 END;
 $$;
 
-CALL SPICreateUser('fran', 'f@f.com', 'donde fran', '3333', 'employee');
+CALL SPCreateUser('fran', 'f@f.com', 'donde fran', '3333', 'employee');
 
 CALL SPCreateClient('perros', 'p@p.com', 'fd', '334523423');
 
