@@ -15,6 +15,7 @@ CREATE TABLE Inventory(
     id SERIAL PRIMARY KEY,
     name varchar(100),
     description varchar(512),
+    pricePerUnit numeric,
     unitsAvailable int
 );
 
@@ -155,7 +156,8 @@ $$;
 CREATE OR REPLACE PROCEDURE SPCreateItem(
     name varchar,
     description varchar,
-    unitsAvailable int
+    unitsAvailable int,
+    pricePerUnit numeric
 )LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -171,8 +173,12 @@ BEGIN
         RAISE EXCEPTION 'Units Availabe cannot be less than 0.';
     END IF;
 
-    INSERT INTO Inventory(name, description, unitsAvailable)
-    VALUES (name, description, unitsAvailable);
+    IF pricePerUnit < 0 THEN
+        RAISE EXCEPTION 'Price per unit cannot be less than 0.0';
+    END IF;
+
+    INSERT INTO Inventory(name, description, unitsAvailable, pricePerUnit)
+    VALUES (name, description, unitsAvailable, pricePerUnit);
 END;
 $$;
 
@@ -180,7 +186,8 @@ CREATE OR REPLACE PROCEDURE SPUpdateItemByID(
     inId int,
     inName varchar,
     inDescription varchar,
-    inUnitsAvailable int
+    inUnitsAvailable int,
+    pricePerUnit numeric
 ) LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -194,6 +201,10 @@ BEGIN
 
     IF inUnitsAvailable < 0 THEN
         RAISE EXCEPTION 'Units Availabe cannot be less than 0.';
+    END IF;
+
+    IF pricePerUnit < 0 THEN
+        RAISE EXCEPTION 'Price per unit cannot be less than 0.0';
     END IF;
 
     UPDATE Inventory
@@ -257,7 +268,8 @@ BEGIN
 END;
 $$;
 
+-- Examples of inserts
+
 CALL SPCreateUser('fran', 'f@f.com', 'donde fran', '3333', 'employee');
-
 CALL SPCreateClient('perros', 'p@p.com', 'fd', '334523423');
-
+CALL SPCreateItem('d11', 'cat', 12, 320000.43);
