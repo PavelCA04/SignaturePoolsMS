@@ -58,7 +58,7 @@ const removeEmployee = `
 
 // Inventory CRUD
 const addItem = `
-    CALL SPCreateItem($1, $2, $3);
+    CALL SPCreateItem($1, $2, $3, $4);
 `
 
 const getItems = `
@@ -73,7 +73,7 @@ const getItemById = `
 `;
 
 const updateItem = `
-    CALL SPUpdateItemByID($1, $2, $3, $4);
+    CALL SPUpdateItemByID($1, $2, $3, $4, $5);
 `
 
 const removeItem = `

@@ -197,9 +197,9 @@ const removeEmployee = (req, res) => {
 
 // Inventory Functions
 const addItem = (req, res) => {
-    const { name, description, unitsAvailable } = req.body;
+    const { name, description, unitsAvailable, pricePerUnit } = req.body;
 
-    pool.query(queries.addItem, [name, description, unitsAvailable], (error, results) => {
+    pool.query(queries.addItem, [ name, description, unitsAvailable, pricePerUnit ], (error, results) => {
         if (error){
             res.status(500).send("Item not created correctly");
             console.log(error.message);
@@ -240,9 +240,9 @@ const updateItem = (req, res) => {
         if (clientNotFound) {
             res.send("Item not found.")
         } else {
-            const { name, description, unitsAvailable} = req.body;
+            const { name, description, unitsAvailable, pricePerUnit } = req.body;
 
-            pool.query(queries.updateItem, [id, name, description, unitsAvailable], (error, results) => {
+            pool.query(queries.updateItem, [id, name, description, unitsAvailable, pricePerUnit ], (error, results) => {
                 if(error){
                     res.status(500).send("Item not updated correctly");
                     console.log(error.message);
