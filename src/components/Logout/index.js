@@ -11,6 +11,7 @@ const Logout = ({ setIsAuthenticated }) => {
       confirmButtonText: 'Yes',
       customClass: {
         popup: 'darkblue-popup',
+        cancelButton: 'button muted-button',
       },
     }).then(result => {
       if (result.value) {

@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
-  const id = selectedEmployee.id;
+const Add = ({ clients, setClients, setIsAdding }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [salary, setSalary] = useState('');
+  const [date, setDate] = useState('');
 
-  const [firstName, setFirstName] = useState(selectedEmployee.firstName);
-  const [lastName, setLastName] = useState(selectedEmployee.lastName);
-  const [email, setEmail] = useState(selectedEmployee.email);
-  const [salary, setSalary] = useState(selectedEmployee.salary);
-  const [date, setDate] = useState(selectedEmployee.date);
-
-  const handleUpdate = e => {
+  const handleAdd = e => {
     e.preventDefault();
 
     if (!firstName || !lastName || !email || !salary || !date) {
@@ -25,7 +23,8 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       });
     }
 
-    const employee = {
+    const id = clients.length + 1;
+    const newClient = {
       id,
       firstName,
       lastName,
@@ -34,21 +33,15 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       date,
     };
 
-    for (let i = 0; i < employees.length; i++) {
-      if (employees[i].id === id) {
-        employees.splice(i, 1, employee);
-        break;
-      }
-    }
-
-    localStorage.setItem('employees_data', JSON.stringify(employees));
-    setEmployees(employees);
-    setIsEditing(false);
+    clients.push(newClient);
+    localStorage.setItem('clients_data', JSON.stringify(clients));
+    setClients(clients);
+    setIsAdding(false);
 
     Swal.fire({
       icon: 'success',
-      title: 'Updated!',
-      text: `${employee.firstName} ${employee.lastName}'s data has been updated.`,
+      title: 'Added!',
+      text: `${firstName} ${lastName}'s data has been Added.`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {
@@ -59,8 +52,8 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
 
   return (
     <div className="small-container">
-      <form onSubmit={handleUpdate}>
-        <h1>Edit Employee</h1>
+      <form onSubmit={handleAdd}>
+        <h1>Add Client</h1>
         <label htmlFor="firstName">First Name</label>
         <input
           id="firstName"
@@ -85,7 +78,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Salary ($)</label>
+        <label htmlFor="salary">Home Address</label>
         <input
           id="salary"
           type="number"
@@ -93,7 +86,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           value={salary}
           onChange={e => setSalary(e.target.value)}
         />
-        <label htmlFor="date">Date</label>
+        <label htmlFor="date">Phone Number</label>
         <input
           id="date"
           type="date"
@@ -102,13 +95,13 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           onChange={e => setDate(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>
-          <input type="submit" value="Update" />
+          <input type="submit" value="Add" />
           <input
             style={{ marginLeft: '12px' }}
             className="muted-button"
             type="button"
             value="Cancel"
-            onClick={() => setIsEditing(false)}
+            onClick={() => setIsAdding(false)}
           />
         </div>
       </form>
@@ -116,4 +109,4 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
   );
 };
 
-export default Edit;
+export default Add;

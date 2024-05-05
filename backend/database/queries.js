@@ -80,6 +80,30 @@ const removeItem = `
     CALL SPDeleteItemByID($1);
 `
 
+// Meeting CRUD
+const addMeeting = `
+    CALL SPInsertMeeting($1, $2);
+`;
+
+const getMeetings = `
+    SELECT *
+    FROM Meetings;
+`;
+
+const getMeetingById = `
+    SELECT *
+    FROM Meetings
+    WHERE id = $1;
+`;
+
+const updateMeeting = `
+    CALL SPUpdateMeetingByID($1, $2, $3);
+`;
+
+const removeMeeting = `
+    CALL SPDeleteMeetingByID($1);
+`;
+
 
 module.exports = {
     getUsers,
@@ -108,4 +132,11 @@ module.exports = {
     getItemById,
     updateItem,
     removeItem,
+
+    // Meeting
+    addMeeting,
+    getMeetings,
+    getMeetingById,
+    updateMeeting,
+    removeMeeting,
 };

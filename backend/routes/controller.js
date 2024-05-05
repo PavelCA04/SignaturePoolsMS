@@ -266,6 +266,77 @@ const removeItem = (req, res) => {
     })
 }
 
+// Meeting Functions
+const addMeeting = (req, res) => {
+    const { name, date } = req.body;
+
+    pool.query(queries.addMeeting, [name, date], (error, results) => {
+        if (error){
+            res.status(500).send("Meeting not created correctly");
+            console.log(error.message);
+        } else{
+            res.status(201).send("Meeting created successfully");
+        }
+    })
+}
+
+const getMeetings = (req, res) => {
+    pool.query(queries.getMeetings, (error, results) => {
+        if(error){
+            res.status(500).json("Meeting not available");
+            console.log(error.message);
+        } else{
+            res.status(200).json(results.rows);
+        }
+    });
+};
+
+const getMeetingById = (req, res) => {
+    const id = parseInt(req.params.id);
+    pool.query(queries.getMeetingById, [id], (error, results) => {
+        if (error){
+            res.status(500).json("Meeting not found");
+            console.log(error.message);
+        } else{
+            res.status(200).json(results.rows);
+        };
+    } )
+}
+
+const updateMeeting = (req, res) => {
+    const id = parseInt(req.params.id);
+
+    pool.query(queries.getMeetingById, [id], (error, results) => {
+        const clientNotFound = !results.rows.length;
+        if (clientNotFound) {
+            res.send("Meeting not found.")
+        } else {
+            const { name, date } = req.body;
+
+            pool.query(queries.updateMeeting, [ id, name, date ], (error, results) => {
+                if(error){
+                    res.status(500).send("Meeting not updated correctly");
+                    console.log(error.message);
+                } else {
+                    res.status(201).send("Meeting Updated Successfully");
+                };
+            })
+        }
+    })
+}
+
+const removeMeeting = (req, res) => {
+    const id = parseInt(req.params.id);
+
+    pool.query(queries.removeMeeting, [id], (error, results) => {
+        if (error){
+            console.log(error.message);
+        } else{
+            res.status(200).send("Meeting remove successfully");
+        };
+    })
+}
+
 module.exports = {
     getUsers,
     getUsersById,
@@ -293,4 +364,11 @@ module.exports = {
     getItemById,
     updateItem,
     removeItem,
+
+    // Meeting
+    addMeeting,
+    getMeetings,
+    getMeetingById,
+    updateMeeting,
+    removeMeeting,
 };
