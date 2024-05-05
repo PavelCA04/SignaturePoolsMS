@@ -15,8 +15,8 @@ CREATE TABLE Inventory(
     id SERIAL PRIMARY KEY,
     name varchar(100),
     description varchar(512),
-    pricePerUnit numeric,
-    unitsAvailable int
+    unitsAvailable int,
+    pricePerUnit numeric
 );
 
 CREATE TABLE Meetings(
@@ -187,7 +187,7 @@ CREATE OR REPLACE PROCEDURE SPUpdateItemByID(
     inName varchar,
     inDescription varchar,
     inUnitsAvailable int,
-    pricePerUnit numeric
+    inPricePerUnit numeric
 ) LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -203,12 +203,12 @@ BEGIN
         RAISE EXCEPTION 'Units Availabe cannot be less than 0.';
     END IF;
 
-    IF pricePerUnit < 0 THEN
+    IF inPricePerUnit < 0 THEN
         RAISE EXCEPTION 'Price per unit cannot be less than 0.0';
     END IF;
 
     UPDATE Inventory
-    SET name = inName, description = inDescription, unitsAvailable = inUnitsAvailable
+    SET name = inName, description = inDescription, unitsAvailable = inUnitsAvailable, pricePerUnit = inPricePerUnit
     WHERE id = inId;
 END;
 $$;
