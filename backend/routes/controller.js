@@ -242,7 +242,7 @@ const updateItem = (req, res) => {
         } else {
             const { name, description, unitsAvailable, pricePerUnit } = req.body;
 
-            pool.query(queries.updateItem, [id, name, description, unitsAvailable, pricePerUnit ], (error, results) => {
+            pool.query(queries.updateItem, [ id, name, description, unitsAvailable, pricePerUnit ], (error, results) => {
                 if(error){
                     res.status(500).send("Item not updated correctly");
                     console.log(error.message);
