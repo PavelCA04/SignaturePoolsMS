@@ -20,7 +20,7 @@ const Header = ({ setIsAdding, setIsAuthenticated, onSearch }) => {
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search Item..."
             value={searchTerm}
             onChange={handleSearchChange}
             style={{ width: '500px', padding: '0.75rem 1.25rem' }} 
