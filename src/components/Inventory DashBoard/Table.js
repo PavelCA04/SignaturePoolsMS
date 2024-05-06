@@ -67,3 +67,4 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
 };
 
 export default Table;
+

@@ -35,3 +35,8 @@ const Header = ({ setIsAdding, setIsAuthenticated, onSearch }) => {
 };
 
 export default Header;
+
+
+
+
+
