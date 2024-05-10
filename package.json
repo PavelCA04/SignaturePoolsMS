@@ -2,7 +2,7 @@
   "name": "crud-app",
   "version": "3.3.0",
   "private": true,
-  "homepage": "https://safdarjamal.github.io/crud-app/",
+  "homepage": "/",
   "author": {
     "name": "Safdar Jamal",
     "url": "https://safdarjamal.github.io"
@@ -16,6 +16,7 @@
     "pg": "^8.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0",
     "react-scripts": "^5.0.1",
     "sweetalert2": "^11.4.18"
   },
