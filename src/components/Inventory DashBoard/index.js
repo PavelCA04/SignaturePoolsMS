@@ -8,6 +8,8 @@ import Edit from './Edit';
 
 import { itemsData } from '../../data/items';
 import { getData } from '../../data/getData';
+import { deleteData } from '../../data/deleteData';
+
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [items, setItems] = useState(itemsData);
@@ -51,12 +53,22 @@ const Dashboard = ({ setIsAuthenticated }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
-        const [item] = items.filter((item) => item.id === id);
+        async function deleteItem() {
+          const url = `http://localhost:8080/api/v1/items/${id}`; // Replace with your actual API endpoint
+          try {
+            const statusCode = await deleteData(url);
+          } catch (error) {
+            console.error('Error:', error);
+          } finally {
+            fetchData();
+          }
+        }
+        deleteItem();
   
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: `${item.firstName} ${item.lastName}'s data has been deleted.`,
+          text: `Item data has been deleted.`,
           showConfirmButton: false,
           timer: 1500,
           customClass: {
@@ -64,9 +76,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
           },
         });
   
-        const itemsCopy = items.filter((item) => item.id !== id);
-        localStorage.setItem('employees_data', JSON.stringify(itemsCopy));
-        setItems(itemsCopy);
+        //const itemsCopy = items.filter((item) => item.id !== id);
+        //localStorage.setItem('employees_data', JSON.stringify(itemsCopy));
+        //setItems(itemsCopy);
       }
     });
   };
