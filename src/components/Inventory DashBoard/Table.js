@@ -67,3 +67,4 @@ const Table = ({ items, handleEdit, handleDelete }) => {
 };
 
 export default Table;
+
