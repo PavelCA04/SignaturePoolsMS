@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import Swal from 'sweetalert2';
 
 import Header from './Header';
@@ -9,36 +9,33 @@ import Edit from './Edit';
 import { itemsData } from '../../data/items';
 import { loadData } from '../../data/loadData';
 
-
 const Dashboard = ({ setIsAuthenticated }) => {
   const [items, setItems] = useState(itemsData);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await loadData("http://localhost:8080/api/v1/items/");
-        console.log(data);
-        if (data && data.length > 0) {
-          setItems(data);
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchData = useCallback(async () => {
+    try {
+      const data = await loadData("http://localhost:8080/api/v1/items/");
+      if (data && data.length > 0) {
+        setItems(data);
       }
-    };
-  
-    fetchData();
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); 
 
   const handleEdit = id => {
     const [item] = items.filter(item => item.id === id);
 
-    setSelectedEmployee(item);
+    setSelectedItem(item);
     setIsEditing(true);
   };
-
   
   const handleDelete = (id) => {
     Swal.fire({
@@ -74,8 +71,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
     });
   };
   
-
-
   return (
     <div className="container">
       {!isAdding && !isEditing && (
@@ -96,12 +91,13 @@ const Dashboard = ({ setIsAuthenticated }) => {
           items={items}
           setItems={setItems}
           setIsAdding={setIsAdding}
+          fetchData={fetchData}
         />
       )}
       {isEditing && (
         <Edit
           items={items}
-          selectedEmployee={selectedEmployee}
+          selectedItem={selectedItem}
           setItems={setItems}
           setIsEditing={setIsEditing}
         />

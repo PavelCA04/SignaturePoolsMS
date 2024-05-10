@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { sendData } from '../../data/sendData';
 
-const Add = ({ employees, setEmployees, setIsAdding }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [salary, setSalary] = useState('');
-  const [date, setDate] = useState('');
+const Add = ({ items, setItems, setIsAdding, fetchData }) => {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [unitsAvailable, setUnitsAvailable] = useState('');
+  const [pricePerUnit, setPricePerUnit] = useState('');
 
   const handleAdd = e => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !email || !salary || !date) {
+    if (!name || !description || !unitsAvailable || !pricePerUnit) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -23,25 +23,29 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       });
     }
 
-    const id = employees.length + 1;
-    const newEmployee = {
-      id,
-      firstName,
-      lastName,
-      email,
-      salary,
-      date,
-    };
-
-    employees.push(newEmployee);
-    localStorage.setItem('employees_data', JSON.stringify(employees));
-    setEmployees(employees);
     setIsAdding(false);
+    console.log({name, description, unitsAvailable, pricePerUnit});
+    async function addItem() {
+      const url = 'http://localhost:8080/api/v1/items/'; // Replace with your actual API endpoint
+      try {
+        const statusCode = await sendData(url, {
+          name,
+          description,
+          unitsAvailable,
+          pricePerUnit,
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        fetchData();
+      }
+    }
+    addItem();
 
     Swal.fire({
       icon: 'success',
       title: 'Added!',
-      text: `${firstName} ${lastName}'s data has been Added.`,
+      text: `${name}'s data has been Added.`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {
@@ -54,45 +58,37 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
     <div className="small-container">
       <form onSubmit={handleAdd}>
         <h1>Add Item</h1>
-        <label htmlFor="firstName">Item Name</label>
+        <label htmlFor="name">Item Name</label>
         <input
-          id="firstName"
+          id="name"
           type="text"
-          name="firstName"
-          value={firstName}
-          onChange={e => setFirstName(e.target.value)}
+          name="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
-        <label htmlFor="lastName">Description</label>
+        <label htmlFor="description">Description</label>
         <input
-          id="lastName"
+          id="description"
           type="text"
-          name="lastName"
-          value={lastName}
-          onChange={e => setLastName(e.target.value)}
+          name="description"
+          value={description}
+          onChange={e => setDescription(e.target.value)}
         />
         <label htmlFor="Units Available">Units Available</label>
         <input
-          id="email"
-          type="email"
-          name="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-        <label htmlFor="salary">Price per Unit ($)</label>
-        <input
-          id="salary"
+          id="unitsAvailable"
           type="number"
-          name="salary"
-          value={salary}
-          onChange={e => setSalary(e.target.value)}
+          name="unitsAvailable"
+          value={unitsAvailable}
+          onChange={e => setUnitsAvailable(e.target.value)}
         />
-        <label htmlFor="date">Total Price ($)</label>
+        <label htmlFor="pricePerUnit">Price per Unit ($)</label>
         <input
-          id="date"
-          type="date"
-          name="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
+          id="pricePerUnit"
+          type="number"
+          name="pricePerUnit"
+          value={pricePerUnit}
+          onChange={e => setPricePerUnit(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>
           <input type="submit" value="Add" />
