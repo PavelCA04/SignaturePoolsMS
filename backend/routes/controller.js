@@ -268,9 +268,9 @@ const removeItem = (req, res) => {
 
 // Meeting Functions
 const addMeeting = (req, res) => {
-    const { name, description, date } = req.body;
+    const { name, description, location, date } = req.body;
 
-    pool.query(queries.addMeeting, [name, description, date], (error, results) => {
+    pool.query(queries.addMeeting, [name, description, location, date], (error, results) => {
         if (error){
             res.status(500).send("Meeting not created correctly");
             console.log(error.message);
@@ -311,9 +311,9 @@ const updateMeeting = (req, res) => {
         if (clientNotFound) {
             res.send("Meeting not found.")
         } else {
-            const { name, description, date } = req.body;
+            const { name, description, location, date } = req.body;
 
-            pool.query(queries.updateMeeting, [ id, name, description, date ], (error, results) => {
+            pool.query(queries.updateMeeting, [ id, name, description, location, date ], (error, results) => {
                 if(error){
                     res.status(500).send("Meeting not updated correctly");
                     console.log(error.message);
