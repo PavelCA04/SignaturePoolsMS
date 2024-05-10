@@ -82,7 +82,7 @@ const removeItem = `
 
 // Meeting CRUD
 const addMeeting = `
-    CALL SPInsertMeeting($1, $2);
+    CALL SPCreateMeeting($1, $2, $3);
 `;
 
 const getMeetings = `
@@ -97,7 +97,7 @@ const getMeetingById = `
 `;
 
 const updateMeeting = `
-    CALL SPUpdateMeetingByID($1, $2, $3);
+    CALL SPUpdateMeetingByID($1, $2, $3, $4);
 `;
 
 const removeMeeting = `
