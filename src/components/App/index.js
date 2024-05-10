@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from '../Login';
-import InventoryDashboard from '../Inventory DashBoard';
+import Menu from '../Menu';
+//import Clients from '../Clients DashBoard';
+import Inventory from '../Inventory DashBoard';
+//import Meetings from '../Meetings DashBoard';
+//import Employees from '../Employees DashBoard';
+import Logout from '../Logout';
+
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-  useEffect(() => {
-    setIsAuthenticated(JSON.parse(localStorage.getItem('is_authenticated')));
-  }, []);
-
   return (
-    <>
-      {isAuthenticated ? (
-        <InventoryDashboard setIsAuthenticated={setIsAuthenticated} />
-      ) : (
-        <Login setIsAuthenticated={setIsAuthenticated} />
-      )}
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/logout" element={<Logout />} />
+      </Routes>
+    </Router>
   );
-};
-
+}
 export default App;
 

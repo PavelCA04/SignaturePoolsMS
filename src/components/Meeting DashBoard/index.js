@@ -15,8 +15,19 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('meetings_data'));
-    if (data !== null && Object.keys(data).length !== 0) setMeetings(data);
+    const fetchData = async () => {
+      try {
+        const data = await loadData("http://localhost:8080/api/v1/meetings/");
+        console.log(data);
+        if (data && data.length > 0) {
+          setItems(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleEdit = id => {

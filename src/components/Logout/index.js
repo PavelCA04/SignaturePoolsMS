@@ -1,7 +1,10 @@
 import React from 'react';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const Logout = ({ setIsAuthenticated }) => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     Swal.fire({
       icon: 'question',
@@ -25,8 +28,7 @@ const Logout = ({ setIsAuthenticated }) => {
             Swal.showLoading();
           },
           willClose: () => {
-            localStorage.setItem('is_authenticated', false);
-            setIsAuthenticated(false);
+            navigate('/');
           },
         });
       }
