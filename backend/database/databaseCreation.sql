@@ -22,6 +22,7 @@ CREATE TABLE Inventory(
 CREATE TABLE Meetings(
     id SERIAL PRIMARY KEY,
     name varchar(100),
+    description varchar(256),
     date timestamp
 );
 
@@ -182,6 +183,8 @@ BEGIN
 END;
 $$;
 
+drop procedure SPUpdateItemByID;
+
 CREATE OR REPLACE PROCEDURE SPUpdateItemByID(
     inId int,
     inName varchar,
@@ -224,24 +227,8 @@ END;
 $$;
 
 CREATE OR REPLACE PROCEDURE SPCreateMeeting(
-    name varchar(100),
-    date timestamp
-) LANGUAGE plpgsql
-AS
-$$
-BEGIN
-    IF name IS NULL OR name = '' OR LENGTH(name) > 100 THEN
-        RAISE EXCEPTION 'Name cannot be null, empty or greater than 100 characters.';
-    END IF;
-
-    INSERT INTO Meetings(name, date)
-    VALUES (name, date);
-END;
-$$;
-
-CREATE OR REPLACE PROCEDURE SPUpdateMeetingByID(
-    inId int,
-    inName varchar,
+    inName varchar(100),
+    inDescription varchar(256),
     inDate timestamp
 ) LANGUAGE plpgsql
 AS
@@ -251,8 +238,34 @@ BEGIN
         RAISE EXCEPTION 'Name cannot be null, empty or greater than 100 characters.';
     END IF;
 
+    IF inDescription IS NULL OR inDescription = '' OR LENGTH(inDescription) > 256 THEN
+        RAISE EXCEPTION 'Address cannot be null or greater than 512 characters.';
+    END IF;
+
+    INSERT INTO Meetings(name, description, date)
+    VALUES (inName, inDescription, inDate);
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE SPUpdateMeetingByID(
+    inId int,
+    inName varchar,
+    inDescription varchar,
+    inDate timestamp
+) LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    IF inName IS NULL OR inName = '' OR LENGTH(inName) > 100 THEN
+        RAISE EXCEPTION 'Name cannot be null, empty or greater than 100 characters.';
+    END IF;
+
+    IF inDescription IS NULL OR inDescription = '' OR LENGTH(inDescription) > 256 THEN
+        RAISE EXCEPTION 'Address cannot be null or greater than 512 characters.';
+    END IF;
+
     UPDATE Meetings
-    SET name = inName, date = inDate
+    SET name = inName, description = inDescription,  date = inDate
     WHERE id = inId;
 END;
 $$;
