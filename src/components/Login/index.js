@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setIsAuthenticated }) => {
   const adminEmail = 'admin@example.com';
@@ -7,6 +8,7 @@ const Login = ({ setIsAuthenticated }) => {
 
   const [email, setEmail] = useState('admin@example.com');
   const [password, setPassword] = useState('qwerty');
+  const navigate = useNavigate();
 
   const handleLogin = e => {
     e.preventDefault();
@@ -22,8 +24,7 @@ const Login = ({ setIsAuthenticated }) => {
           Swal.showLoading();
         },
         willClose: () => {
-          localStorage.setItem('is_authenticated', true);
-          setIsAuthenticated(true);
+          navigate('/menu');
 
           Swal.fire({
             icon: 'success',
