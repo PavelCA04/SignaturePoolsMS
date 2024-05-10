@@ -23,6 +23,7 @@ CREATE TABLE Meetings(
     id SERIAL PRIMARY KEY,
     name varchar(100),
     description varchar(256),
+    location varchar(256),
     date timestamp
 );
 
@@ -229,6 +230,7 @@ $$;
 CREATE OR REPLACE PROCEDURE SPCreateMeeting(
     inName varchar(100),
     inDescription varchar(256),
+    inLocation varchar(256),
     inDate timestamp
 ) LANGUAGE plpgsql
 AS
@@ -242,8 +244,12 @@ BEGIN
         RAISE EXCEPTION 'Address cannot be null or greater than 512 characters.';
     END IF;
 
-    INSERT INTO Meetings(name, description, date)
-    VALUES (inName, inDescription, inDate);
+    IF inDescription IS NULL OR inDescription = '' OR LENGTH(inLocation) > 256 THEN
+        RAISE EXCEPTION 'Address cannot be null or greater than 512 characters.';
+    END IF;
+
+    INSERT INTO Meetings(name, description, location, date)
+    VALUES (inName, inDescription, inLocation,inDate);
 END;
 $$;
 
@@ -251,6 +257,7 @@ CREATE OR REPLACE PROCEDURE SPUpdateMeetingByID(
     inId int,
     inName varchar,
     inDescription varchar,
+    inLocation varchar,
     inDate timestamp
 ) LANGUAGE plpgsql
 AS
@@ -264,8 +271,12 @@ BEGIN
         RAISE EXCEPTION 'Address cannot be null or greater than 512 characters.';
     END IF;
 
+    IF inDescription IS NULL OR inDescription = '' OR LENGTH(inLocation) > 256 THEN
+        RAISE EXCEPTION 'Address cannot be null or greater than 512 characters.';
+    END IF;
+
     UPDATE Meetings
-    SET name = inName, description = inDescription,  date = inDate
+    SET name = inName, description = inDescription, location = inLocation,  date = inDate
     WHERE id = inId;
 END;
 $$;
