@@ -7,7 +7,7 @@ import Add from './Add';
 import Edit from './Edit';
 
 import { itemsData } from '../../data/items';
-import { loadData } from '../../data/loadData';
+import { getData } from '../../data/getData';
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [items, setItems] = useState(itemsData);
@@ -17,7 +17,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const data = await loadData("http://localhost:8080/api/v1/items/");
+      const data = await getData("http://localhost:8080/api/v1/items/");
       if (data && data.length > 0) {
         setItems(data);
       }
@@ -100,6 +100,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           selectedItem={selectedItem}
           setItems={setItems}
           setIsEditing={setIsEditing}
+          fetchData={fetchData}
         />
       )}
     </div>

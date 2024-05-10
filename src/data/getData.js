@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-async function loadData(url) {
+async function getData(url) {
   try {
     const response = await axios.get(url);
     return response.data;
@@ -9,4 +9,4 @@ async function loadData(url) {
   }
 }
 
-export { loadData };
+export { getData };
