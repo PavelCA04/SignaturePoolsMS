@@ -11,14 +11,8 @@ const Edit = ({ meetings, selectedMeeting, setMeetings, setIsEditing, fetchData 
   const [location, setLocation] = useState(selectedMeeting.location);
   const [date, setDate] = useState(selectedMeeting.date);
 
-  const formatDate = (date) => {
-    const isoDate = date;
-  
-    const datePart = isoDate.slice(0, 10);
-  
-    const timePart = isoDate.slice(11, 16);
-  
-    return `${datePart}T${timePart}`;
+  const formatDate = (date) => {  
+    return `${date.slice(0, 10)}T${date.slice(11, 16)}`;
   }
 
   const handleUpdate = e => {

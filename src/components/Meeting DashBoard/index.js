@@ -19,16 +19,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const fetchData = useCallback(async () => {
     try {
       const data = await getData("http://localhost:8080/api/v1/meetings/");
-      
-      data.forEach(element => {
-        // Access each element here
-        console.log("----------------------------------");
-        console.log(element.date);
-        const dateReceive = new Date(element.date)
-        console.log(dateReceive.toISOString());
-        console.log("----------------------------------");
-      });
-
       if (data && data.length > 0) {
         setMeetings(data);
       }
@@ -38,7 +28,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
   }, []);
 
   useEffect(() => {
-    console.log("Fetching");
     fetchData();
   }, [fetchData]); 
 
@@ -64,12 +53,22 @@ const Dashboard = ({ setIsAuthenticated }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
-        const [meeting] = meetings.filter((meeting) => meeting.id === id);
+        async function deleteItem() {
+          const url = `http://localhost:8080/api/v1/meetings/${id}`; // Replace with your actual API endpoint
+          try {
+            const statusCode = await deleteData(url);
+          } catch (error) {
+            console.error('Error:', error);
+          } finally {
+            fetchData();
+          }
+        }
+        deleteItem();
   
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: `${meeting.firstName} ${meeting.lastName}'s data has been deleted.`,
+          text: `The data has been deleted.`,
           showConfirmButton: false,
           timer: 1500,
           customClass: {
@@ -77,10 +76,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
             confirmButton: 'button muted-button'
           },
         });
-  
-        const meetingsCopy = meetings.filter((meeting) => meeting.id !== id);
-        localStorage.setItem('meetings_data', JSON.stringify(meetingsCopy));
-        setMeetings(meetingsCopy);
       }
     });
   };
@@ -107,6 +102,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           meetings={meetings}
           setMeetings={setMeetings}
           setIsAdding={setIsAdding}
+          fetchData={fetchData}
         />
       )}
       {isEditing && (

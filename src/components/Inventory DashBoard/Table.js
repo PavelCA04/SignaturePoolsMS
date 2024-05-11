@@ -1,10 +1,6 @@
 import React from 'react';
 
 const Table = ({ items, handleEdit, handleDelete }) => {
-  items.forEach((item, i) => {
-    item.id = i + 1;
-  });
-
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -31,7 +27,7 @@ const Table = ({ items, handleEdit, handleDelete }) => {
           {items.length > 0 ? (
             items.map((item, i) => (
               <tr key={item.id}>
-                <td>{i + 1}</td>
+                <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>{item.description}</td>
                 <td>{item.unitsavailable}</td>

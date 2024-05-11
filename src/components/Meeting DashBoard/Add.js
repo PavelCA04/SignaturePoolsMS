@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { postData } from '../../data/postData';
 
-const Add = ({ meetings, setMeetings, setIsAdding }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [salary, setSalary] = useState('');
+const Add = ({ meetings, setMeetings, setIsAdding, fetchData }) => {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [location, setEmail] = useState('');
   const [date, setDate] = useState('');
 
   const handleAdd = e => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !email || !salary || !date) {
+    if (!name || !description || !location || !date) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -23,25 +23,29 @@ const Add = ({ meetings, setMeetings, setIsAdding }) => {
       });
     }
 
-    const id = meetings.length + 1;
-    const newMeeting = {
-      id,
-      firstName,
-      lastName,
-      email,
-      salary,
-      date,
-    };
-
-    meetings.push(newMeeting);
-    localStorage.setItem('meetings_data', JSON.stringify(meetings));
-    setMeetings(meetings);
     setIsAdding(false);
+
+    async function addMeeting() {
+      const url = 'http://localhost:8080/api/v1/meetings/'; // Replace with your actual API endpoint
+      try {
+        const statusCode = await postData(url, {
+          name,
+          description,
+          location,
+          date,
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        fetchData();
+      }
+    }
+    addMeeting();
 
     Swal.fire({
       icon: 'success',
       title: 'Added!',
-      text: `${firstName} ${lastName}'s data has been Added.`,
+      text: `${name} ${description}'s data has been Added.`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {
@@ -54,42 +58,34 @@ const Add = ({ meetings, setMeetings, setIsAdding }) => {
     <div className="small-container">
       <form onSubmit={handleAdd}>
         <h1>Add Meeting</h1>
-        <label htmlFor="firstName">Meeting Name</label>
+        <label htmlFor="name">Name</label>
         <input
-          id="firstName"
+          id="name"
           type="text"
-          name="firstName"
-          value={firstName}
-          onChange={e => setFirstName(e.target.value)}
+          name="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
-        <label htmlFor="lastName">Client Name</label>
+        <label htmlFor="description">Description</label>
         <input
-          id="lastName"
+          id="description"
           type="text"
-          name="lastName"
-          value={lastName}
-          onChange={e => setLastName(e.target.value)}
+          name="description"
+          value={description}
+          onChange={e => setDescription(e.target.value)}
         />
-        <label htmlFor="email">Description</label>
+        <label htmlFor="location">Address</label>
         <input
-          id="email"
-          type="email"
-          name="email"
-          value={email}
+          id="location"
+          type="text"
+          name="location"
+          value={location}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Address</label>
-        <input
-          id="salary"
-          type="number"
-          name="salary"
-          value={salary}
-          onChange={e => setSalary(e.target.value)}
-        />
-        <label htmlFor="date">Date/Hour</label>
+        <label htmlFor="date">Date</label>
         <input
           id="date"
-          type="date"
+          type="datetime-local"
           name="date"
           value={date}
           onChange={e => setDate(e.target.value)}
