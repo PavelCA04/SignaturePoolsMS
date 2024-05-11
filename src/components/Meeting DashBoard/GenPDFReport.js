@@ -2,13 +2,29 @@ import React from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import Swal from 'sweetalert2';
 
+const fileDocsvgIcon = `
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 21H6C5.44772 21 5 20.5523 5 20L5 4C5 3.44772 5.44772 3 6 3L13.5631 3C13.8416 3 14.1076 3.11619 14.2968 3.32059L18.7338 8.11246C18.9049 8.29731 19 8.53995 19 8.79187L19 20C19 20.5523 18.5523 21 18 21Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9 17H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9 14H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19 9L14 9C13.4477 9 13 8.55228 13 8L13 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+  `;
+
+const fileDownsvgIcon =`
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 12L12 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 16L12 18L9 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 21H6C5.44772 21 5 20.5523 5 20L5 4C5 3.44772 5.44772 3 6 3L13.5631 3C13.8416 3 14.1076 3.11619 14.2968 3.32059L18.7338 8.11246C18.9049 8.29731 19 8.53995 19 8.79187L19 20C19 20.5523 18.5523 21 18 21Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19 9L14 9C13.4477 9 13 8.55228 13 8L13 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
 const showGeneratePdfPopup = (meetingData) => {
   Swal.fire({
     title: 'Generate PDF Report',
     text: 'Select the date range for the meetings report.',
     color: '#fff',
-        //imageUrl: 'C:Users\pavel\Downloads\pdf-icon-vector-25322907.jpg',
-    //imageHeight: 80, // Adjust as needed
     showCancelButton: true,
     confirmButtonText: 'Generate Report',
     cancelButtonText: 'Cancel',
@@ -27,8 +43,9 @@ const showGeneratePdfPopup = (meetingData) => {
           <label for="end-date">End Date:</label>
           <input type="date" id="end-date" class="swal2-input" style="width: 385px;" />
         </div>
+        ${fileDocsvgIcon}
       </div>
-    `,
+    ` ,
   }).then((result) => {
     if (result.isConfirmed) {
       const startDate = document.getElementById('start-date').value;
@@ -58,6 +75,7 @@ const showGeneratePdfPopup = (meetingData) => {
                 customClass: {
                   popup: 'darkblue-popup',
                 },
+                html: `${fileDownsvgIcon}`,
               });
             })
             .catch((errorMessage) => {
@@ -110,11 +128,10 @@ const generatePdfReport = (meetingData, startDate, endDate) => {
       } else {
         reject("Failed to generate PDF report.");
       }
-    }, 3000); // Simulated delay
+    }, 3000); 
   });
 };
 
-// Define styles for the PDF document
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'column',
