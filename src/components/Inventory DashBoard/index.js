@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Table from './Table';
 import Add from './Add';
@@ -13,6 +13,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('employees_data'));
@@ -26,7 +27,10 @@ const Dashboard = ({ setIsAuthenticated }) => {
     setIsEditing(true);
   };
 
-  
+  const ReturnToMainMenu = () => {
+    navigate('/menu');
+  };
+
   const handleDelete = (id) => {
     Swal.fire({
       icon: 'warning',
@@ -60,7 +64,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
       }
     });
   };
-  
+ 
 
 
   return (
@@ -70,6 +74,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           <Header
             setIsAdding={setIsAdding}
             setIsAuthenticated={setIsAuthenticated}
+            returnToMainMenu={ReturnToMainMenu}
           />
           <Table
             employees={employees}
