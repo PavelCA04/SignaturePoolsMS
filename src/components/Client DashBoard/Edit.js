@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { httpClient } from '../../data/';
 
-const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
+const Edit = ({ clients, selectedClient, setClients, setIsEditing, fetchData }) => {
   const id = selectedClient.id;
 
-  const [firstName, setFirstName] = useState(selectedClient.firstName);
-  const [lastName, setLastName] = useState(selectedClient.lastName);
+  const [name, setName] = useState(selectedClient.name);
   const [email, setEmail] = useState(selectedClient.email);
-  const [salary, setSalary] = useState(selectedClient.salary);
-  const [date, setDate] = useState(selectedClient.date);
+  const [address, setAddress] = useState(selectedClient.address);
+  const [phoneNumber, setPhoneNumber] = useState(selectedClient.phonenumber);
 
   const handleUpdate = e => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !email || !salary || !date) {
+    if (!name || !email || !address || !phoneNumber) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -25,30 +25,29 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
       });
     }
 
-    const client = {
-      id,
-      firstName,
-      lastName,
-      email,
-      salary,
-      date,
-    };
-
-    for (let i = 0; i < clients.length; i++) {
-      if (clients[i].id === id) {
-        clients.splice(i, 1, client);
-        break;
+    async function updateClient() {
+      const url = `http://localhost:8080/api/v1/clients/${id}`; // Replace with your actual API endpoint
+      try {
+        const statusCode = await httpClient.put(url, {
+          name,
+          email,
+          address,
+          phoneNumber,
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        fetchData();
       }
     }
+    updateClient();
 
-    localStorage.setItem('clients_data', JSON.stringify(clients));
-    setClients(clients);
     setIsEditing(false);
 
     Swal.fire({
       icon: 'success',
       title: 'Updated!',
-      text: `${client.firstName} ${client.lastName}'s data has been updated.`,
+      text: `${name}s data has been updated.`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {
@@ -61,21 +60,13 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
     <div className="small-container">
       <form onSubmit={handleUpdate}>
         <h1>Edit Client</h1>
-        <label htmlFor="firstName">First Name</label>
+        <label htmlFor="name">Name</label>
         <input
-          id="firstName"
+          id="name"
           type="text"
-          name="firstName"
-          value={firstName}
-          onChange={e => setFirstName(e.target.value)}
-        />
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          id="lastName"
-          type="text"
-          name="lastName"
-          value={lastName}
-          onChange={e => setLastName(e.target.value)}
+          name="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
         <label htmlFor="email">Email</label>
         <input
@@ -85,21 +76,21 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing }) => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Home Address</label>
+        <label htmlFor="address">Address</label>
         <input
-          id="salary"
-          type="number"
-          name="salary"
-          value={salary}
-          onChange={e => setSalary(e.target.value)}
+          id="address"
+          type="text"
+          name="address"
+          value={address}
+          onChange={e => setAddress(e.target.value)}
         />
-        <label htmlFor="date">Phone Number</label>
+        <label htmlFor="phoneNumber">Phone Number</label>
         <input
-          id="date"
-          type="date"
-          name="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
+          id="phoneNumber"
+          type="tel"
+          name="phoneNumber"
+          value={phoneNumber}
+          onChange={e => setPhoneNumber(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>
           <input type="submit" value="Update" />
