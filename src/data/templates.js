@@ -6,7 +6,7 @@ const itemsData = [
         "unitsavailable": 0,
         "priceperunit": 0
     }
-]
+];
 
 const meetingsData = [
     {
@@ -16,10 +16,31 @@ const meetingsData = [
         "location": "",
         "date": "0000-00-00 00:00"
     }
-]
+];
+
+const employeesData = [
+    {
+        "id": 0,
+        "name": "",
+        "description": "",
+        "location": "",
+        "date": "0000-00-00 00:00"
+    }
+];
+
+const clientsData = [
+    {
+        "id": 0,
+        "name": "",
+        "description": "",
+        "location": "",
+        "date": "0000-00-00 00:00"
+    }
+];
 
 module.exports = { 
     itemsData,
     meetingsData,
-
+    employeesData,
+    clientsData
 }

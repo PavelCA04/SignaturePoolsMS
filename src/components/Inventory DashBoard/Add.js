@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import { postData } from '../../data/postData';
+import { httpClient } from '../../data/';
 
 const Add = ({ items, setItems, setIsAdding, fetchData }) => {
   const [name, setName] = useState('');
@@ -28,7 +28,7 @@ const Add = ({ items, setItems, setIsAdding, fetchData }) => {
     async function addItem() {
       const url = 'http://localhost:8080/api/v1/items/'; // Replace with your actual API endpoint
       try {
-        const statusCode = await postData(url, {
+        const statusCode = await httpClient.post(url, {
           name,
           description,
           unitsAvailable,

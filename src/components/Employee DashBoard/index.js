@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Swal from 'sweetalert2';
 
 import Header from './Header';
@@ -6,7 +6,8 @@ import Table from './Table';
 import Add from './Add';
 import Edit from './Edit';
 
-import { employeesData } from '../../data';
+import { employeesData } from '../../data/templates';
+import { httpClient } from '../../data/';
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [employees, setEmployees] = useState(employeesData);
@@ -14,21 +15,20 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await loadData("http://localhost:8080/api/v1/employees/");
-        console.log(data);
-        if (data && data.length > 0) {
-          setItems(data);
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchData = useCallback(async () => {
+    try {
+      const data = await httpClient.get("http://localhost:8080/api/v1/employees/");
+      if (data && data.length > 0) {
+        setEmployees(data);
       }
-    };
-
-    fetchData();
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); 
 
   const handleEdit = id => {
     const [employee] = employees.filter(employee => employee.id === id);
@@ -52,12 +52,22 @@ const Dashboard = ({ setIsAuthenticated }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
-        const [employee] = employees.filter((employee) => employee.id === id);
+        async function deleteEmployee() {
+          const url = `http://localhost:8080/api/v1/employees/${id}`; // Replace with your actual API endpoint
+          try {
+            const statusCode = await httpClient.delete(url);
+          } catch (error) {
+            console.error('Error:', error);
+          } finally {
+            fetchData();
+          }
+        }
+        deleteEmployee();
   
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: `${employee.firstName} ${employee.lastName}'s data has been deleted.`,
+          text: `The data has been deleted.`,
           showConfirmButton: false,
           timer: 1500,
           customClass: {
@@ -65,10 +75,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
             confirmButton: 'button muted-button'
           },
         });
-  
-        const employeesCopy = employees.filter((employee) => employee.id !== id);
-        localStorage.setItem('employees_data', JSON.stringify(employeesCopy));
-        setEmployees(employeesCopy);
       }
     });
   };
@@ -95,6 +101,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           employees={employees}
           setEmployees={setEmployees}
           setIsAdding={setIsAdding}
+          fetchData={fetchData}
         />
       )}
       {isEditing && (
@@ -103,6 +110,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           selectedEmployee={selectedEmployee}
           setEmployees={setEmployees}
           setIsEditing={setIsEditing}
+          fetchData={fetchData}
         />
       )}
     </div>

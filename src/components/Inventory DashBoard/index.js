@@ -6,9 +6,9 @@ import Table from './Table';
 import Add from './Add';
 import Edit from './Edit';
 
-import { itemsData } from '../../data/dataTemplate';
-import { getData } from '../../data/getData';
-import { deleteData } from '../../data/deleteData';
+import { itemsData } from '../../data/templates';
+import { httpClient } from '../../data/';
+
 
 
 const Dashboard = ({ setIsAuthenticated }) => {
@@ -19,7 +19,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const data = await getData("http://localhost:8080/api/v1/items/");
+      const data = await httpClient.get("http://localhost:8080/api/v1/items/");
       if (data && data.length > 0) {
         setItems(data);
       }
@@ -56,7 +56,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
         async function deleteItem() {
           const url = `http://localhost:8080/api/v1/items/${id}`; // Replace with your actual API endpoint
           try {
-            const statusCode = await deleteData(url);
+            const statusCode = await httpClient.delete(url);
           } catch (error) {
             console.error('Error:', error);
           } finally {

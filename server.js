@@ -9,7 +9,6 @@ const app = express();
 const port = config.serverPort;
 
 app.use((req, res, next) => {
-    // Establecer la zona horaria UTC para el servidor
     process.env.TZ = 'UTC';
     next();
 });

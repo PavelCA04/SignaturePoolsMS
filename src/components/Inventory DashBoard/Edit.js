@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import { putData } from '../../data/putData';
+import { httpClient }  from '../../data/index';
 
 const Edit = ({ items, selectedItem, setItems, setIsEditing, fetchData }) => {
   const id = selectedItem.id;
@@ -28,7 +28,7 @@ const Edit = ({ items, selectedItem, setItems, setIsEditing, fetchData }) => {
     async function updateItem() {
       const url = `http://localhost:8080/api/v1/items/${id}`; // Replace with your actual API endpoint
       try {
-        const statusCode = await putData(url, {
+        const statusCode = await httpClient.put(url, {
           name,
           description,
           unitsAvailable,
