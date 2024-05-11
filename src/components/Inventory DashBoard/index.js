@@ -6,7 +6,7 @@ import Table from './Table';
 import Add from './Add';
 import Edit from './Edit';
 
-import { itemsData } from '../../data/items';
+import { itemsData } from '../../data/dataTemplate';
 import { getData } from '../../data/getData';
 import { deleteData } from '../../data/deleteData';
 
@@ -72,13 +72,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
           showConfirmButton: false,
           timer: 1500,
           customClass: {
-            popup: 'darkblue-popup', // Applying the custom class again
+            popup: 'darkblue-popup', 
           },
         });
-  
-        //const itemsCopy = items.filter((item) => item.id !== id);
-        //localStorage.setItem('employees_data', JSON.stringify(itemsCopy));
-        //setItems(itemsCopy);
       }
     });
   };

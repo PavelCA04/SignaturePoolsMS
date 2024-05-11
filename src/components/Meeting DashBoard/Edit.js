@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const Edit = ({ meetings, selectedMeeting, setMeetings, setIsEditing }) => {
+import { putData } from '../../data/putData';
+
+const Edit = ({ meetings, selectedMeeting, setMeetings, setIsEditing, fetchData }) => {
   const id = selectedMeeting.id;
 
-  const [firstName, setFirstName] = useState(selectedMeeting.firstName);
-  const [lastName, setLastName] = useState(selectedMeeting.lastName);
-  const [email, setEmail] = useState(selectedMeeting.email);
-  const [salary, setSalary] = useState(selectedMeeting.salary);
+  const [name, setName] = useState(selectedMeeting.name);
+  const [description, setDescription] = useState(selectedMeeting.description);
+  const [location, setLocation] = useState(selectedMeeting.location);
   const [date, setDate] = useState(selectedMeeting.date);
+
+  const formatDate = (date) => {
+    const isoDate = date;
+  
+    const datePart = isoDate.slice(0, 10);
+  
+    const timePart = isoDate.slice(11, 16);
+  
+    return `${datePart}T${timePart}`;
+  }
 
   const handleUpdate = e => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !email || !salary || !date) {
+    if (!name || !description || !location || !date) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -25,30 +36,29 @@ const Edit = ({ meetings, selectedMeeting, setMeetings, setIsEditing }) => {
       });
     }
 
-    const meeting = {
-      id,
-      firstName,
-      lastName,
-      email,
-      salary,
-      date,
-    };
-
-    for (let i = 0; i < meetings.length; i++) {
-      if (meetings[i].id === id) {
-        meetings.splice(i, 1, meeting);
-        break;
+    async function updateMeeting() {
+      const url = `http://localhost:8080/api/v1/meetings/${id}`; // Replace with your actual API endpoint
+      try {
+        const statusCode = await putData(url, {
+          name,
+          description,
+          location,
+          date,
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        fetchData();
       }
     }
+    updateMeeting();
 
-    localStorage.setItem('meetings_data', JSON.stringify(meetings));
-    setMeetings(meetings);
     setIsEditing(false);
 
     Swal.fire({
       icon: 'success',
       title: 'Updated!',
-      text: `${meeting.firstName} ${meeting.lastName}'s data has been updated.`,
+      text: `${name} data has been updated.`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {
@@ -61,44 +71,36 @@ const Edit = ({ meetings, selectedMeeting, setMeetings, setIsEditing }) => {
     <div className="small-container">
       <form onSubmit={handleUpdate}>
         <h1>Edit Meeting</h1>
-        <label htmlFor="firstName">Meeting Name</label>
+        <label htmlFor="name">Meeting Name</label>
         <input
-          id="firstName"
+          id="name"
           type="text"
-          name="firstName"
-          value={firstName}
-          onChange={e => setFirstName(e.target.value)}
+          name="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
-        <label htmlFor="lastName">Client Name</label>
+        <label htmlFor="description">Description</label>
         <input
-          id="lastName"
+          id="description"
           type="text"
-          name="lastName"
-          value={lastName}
-          onChange={e => setLastName(e.target.value)}
-        />
-        <label htmlFor="email">Description</label>
-        <input
-          id="email"
-          type="email"
-          name="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          name="description"
+          value={description}
+          onChange={e => setDescription (e.target.value)}
         />
         <label htmlFor="salary">Address</label>
         <input
-          id="salary"
-          type="number"
-          name="salary"
-          value={salary}
-          onChange={e => setSalary(e.target.value)}
+          id="location"
+          type="text"
+          name="location"
+          value={location}
+          onChange={e => setLocation(e.target.value)}
         />
-        <label htmlFor="date">Date/Hour</label>
+        <label htmlFor="date">Date</label>
         <input
           id="date"
-          type="date"
+          type="datetime-local"
           name="date"
-          value={date}
+          value={formatDate(date)}
           onChange={e => setDate(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Swal from 'sweetalert2';
 
 import Header from './Header';
@@ -6,7 +6,9 @@ import Table from './Table';
 import Add from './Add';
 import Edit from './Edit';
 
-import { meetingsData } from '../../data';
+import { meetingsData } from '../../data/dataTemplate';
+import { getData } from '../../data/getData';
+import { deleteData } from '../../data/deleteData';
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [meetings, setMeetings] = useState(meetingsData);
@@ -14,21 +16,31 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await loadData("http://localhost:8080/api/v1/meetings/");
-        console.log(data);
-        if (data && data.length > 0) {
-          setItems(data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const fetchData = useCallback(async () => {
+    try {
+      const data = await getData("http://localhost:8080/api/v1/meetings/");
+      
+      data.forEach(element => {
+        // Access each element here
+        console.log("----------------------------------");
+        console.log(element.date);
+        const dateReceive = new Date(element.date)
+        console.log(dateReceive.toISOString());
+        console.log("----------------------------------");
+      });
 
-    fetchData();
+      if (data && data.length > 0) {
+        setMeetings(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  useEffect(() => {
+    console.log("Fetching");
+    fetchData();
+  }, [fetchData]); 
 
   const handleEdit = id => {
     const [meeting] = meetings.filter(meeting => meeting.id === id);
@@ -103,6 +115,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           selectedMeeting={selectedMeeting}
           setMeetings={setMeetings}
           setIsEditing={setIsEditing}
+          fetchData={fetchData}
         />
       )}
     </div>

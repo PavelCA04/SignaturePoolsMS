@@ -1,11 +1,25 @@
 const itemsData = [
     {
-        "id": 2,
-        "name": "d11",
-        "description": "cat",
-        "unitsavailable": 12,
-        "priceperunit": "320000.43"
+        "id": 0,
+        "name": "",
+        "description": "",
+        "unitsavailable": 0,
+        "priceperunit": 0
     }
 ]
 
-export { itemsData }
+const meetingsData = [
+    {
+        "id": 0,
+        "name": "",
+        "description": "",
+        "location": "",
+        "date": "0000-00-00 00:00"
+    }
+]
+
+module.exports = { 
+    itemsData,
+    meetingsData,
+
+}

@@ -42,10 +42,6 @@ const Edit = ({ items, selectedItem, setItems, setIsEditing, fetchData }) => {
     }
     updateItem();
 
-
-
-    //localStorage.setItem('employees_data', JSON.stringify(items));
-    //setItems(items);
     setIsEditing(false);
 
     Swal.fire({

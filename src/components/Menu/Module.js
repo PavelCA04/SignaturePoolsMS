@@ -15,15 +15,16 @@ const Modules = () => {
 
   const handleModuleClick = (moduleName, moduleRoute) => {
     Swal.fire({
-      title: `You will be directed to the ${moduleName}`,
       icon: 'info',
-      confirmButtonText: 'Okay',
-      background: 'var(--darkblue)',
-      color: 'var(--white)',
-    }).then((result) => {
-      if (result.isConfirmed) {
+      title: `You will be directed to the ${moduleName}`,
+      //text: `${moduleName}'s data has been Added.`,
+      showConfirmButton: false,
+      timer: 1500,
+      customClass: {
+        popup: 'darkblue-popup',
+      },
+    }).finally(() => {
         navigate(moduleRoute); 
-      }
     });
   };
 

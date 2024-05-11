@@ -1,15 +1,14 @@
 import React from 'react';
 
 const Table = ({ meetings, handleEdit, handleDelete }) => {
-  meetings.forEach((meeting, i) => {
-    meeting.id = i + 1;
-  });
-
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: null,
-  });
+  const formatDate = (date) => {  
+    console.log(date);
+    const datePart = date.slice(0, 10);
+  
+    const timePart = date.slice(11, 16);
+  
+    return `${datePart} ${timePart}`;
+  };
 
   return (
     <div className="contain-table">
@@ -18,10 +17,9 @@ const Table = ({ meetings, handleEdit, handleDelete }) => {
           <tr>
             <th>No.</th>
             <th>Meeting Name</th>
-            <th>Client Name</th>
             <th>Description</th>
             <th>Address</th>
-            <th>Date/Hour</th>
+            <th>Date</th>
             <th colSpan={2} className="text-center">
               Actions
             </th>
@@ -31,12 +29,11 @@ const Table = ({ meetings, handleEdit, handleDelete }) => {
           {meetings.length > 0 ? (
             meetings.map((meeting, i) => (
               <tr key={meeting.id}>
-                <td>{i + 1}</td>
+                <td>{meeting.id}</td>
                 <td>{meeting.name}</td>
-                <td>{meeting.clientname}</td>
                 <td>{meeting.description}</td>
-                <td>{formatter.format(meeting.location)}</td>
-                <td>{meeting.date} </td>
+                <td>{meeting.location}</td>
+                <td>{formatDate(meeting.date)} </td>
                 <td className="text-right">
                   <button
                     onClick={() => handleEdit(meeting.id)}
