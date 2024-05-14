@@ -1,26 +1,15 @@
 import React from 'react';
 
 const Table = ({ employees, handleEdit, handleDelete }) => {
-  employees.forEach((employee, i) => {
-    employee.id = i + 1;
-  });
-
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: null,
-  });
-
   return (
     <div className="contain-table">
       <table className="striped-table">
         <thead>
           <tr>
             <th>No.</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
             <th>Email</th>
-            <th>Home Address</th>
+            <th>Address</th>
             <th>Phone Number</th>
             <th colSpan={2} className="text-center">
               Actions
@@ -28,14 +17,17 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
           </tr>
         </thead>
         <tbody>
+
+
+
+          
           {employees.length > 0 ? (
             employees.map((employee, i) => (
               <tr key={employee.id}>
-                <td>{i + 1}</td>
-                <td>{employee.firstName}</td>
-                <td>{employee.lastName}</td>
+                <td>{employee.id}</td>
+                <td>{employee.name}</td>
                 <td>{employee.email}</td>
-                <td>{formatter.format(employee.direction)}</td>
+                <td>{employee.address}</td>
                 <td>{employee.phonenumber} </td>
                 <td className="text-right">
                   <button

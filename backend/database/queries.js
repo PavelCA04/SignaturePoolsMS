@@ -58,7 +58,7 @@ const removeEmployee = `
 
 // Inventory CRUD
 const addItem = `
-    CALL SPCreateItem($1, $2, $3);
+    CALL SPCreateItem($1, $2, $3, $4);
 `
 
 const getItems = `
@@ -73,7 +73,7 @@ const getItemById = `
 `;
 
 const updateItem = `
-    CALL SPUpdateItemByID($1, $2, $3, $4);
+    CALL SPUpdateItemByID($1, $2, $3, $4, $5);
 `
 
 const removeItem = `
@@ -82,7 +82,7 @@ const removeItem = `
 
 // Meeting CRUD
 const addMeeting = `
-    CALL SPInsertMeeting($1, $2);
+    CALL SPCreateMeeting($1, $2, $3, $4);
 `;
 
 const getMeetings = `
@@ -97,7 +97,7 @@ const getMeetingById = `
 `;
 
 const updateMeeting = `
-    CALL SPUpdateMeetingByID($1, $2, $3);
+    CALL SPUpdateMeetingByID($1, $2, $3, $4, $5);
 `;
 
 const removeMeeting = `

@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { httpClient }  from '../../data/index';
 
-const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
-  const id = selectedEmployee.id;
+const Edit = ({ items, selectedItem, setItems, setIsEditing, fetchData }) => {
+  const id = selectedItem.id;
 
-  const [firstName, setFirstName] = useState(selectedEmployee.firstName);
-  const [lastName, setLastName] = useState(selectedEmployee.lastName);
-  const [email, setEmail] = useState(selectedEmployee.email);
-  const [salary, setSalary] = useState(selectedEmployee.salary);
-  const [date, setDate] = useState(selectedEmployee.date);
+  const [name, setName] = useState(selectedItem.name);
+  const [description, setDescription] = useState(selectedItem.description);
+  const [unitsAvailable, setUnitsAvailable] = useState(selectedItem.unitsavailable);
+  const [pricePerUnit, setSalary] = useState(selectedItem.priceperunit);
 
   const handleUpdate = e => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !email || !salary || !date) {
+    if (!name || !description || !unitsAvailable || !pricePerUnit) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -25,30 +25,29 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       });
     }
 
-    const employee = {
-      id,
-      firstName,
-      lastName,
-      email,
-      salary,
-      date,
-    };
-
-    for (let i = 0; i < employees.length; i++) {
-      if (employees[i].id === id) {
-        employees.splice(i, 1, employee);
-        break;
+    async function updateItem() {
+      const url = `http://localhost:8080/api/v1/items/${id}`; // Replace with your actual API endpoint
+      try {
+        const statusCode = await httpClient.put(url, {
+          name,
+          description,
+          unitsAvailable,
+          pricePerUnit,
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        fetchData();
       }
     }
+    updateItem();
 
-    localStorage.setItem('employees_data', JSON.stringify(employees));
-    setEmployees(employees);
     setIsEditing(false);
 
     Swal.fire({
       icon: 'success',
       title: 'Updated!',
-      text: `${employee.firstName} ${employee.lastName}'s data has been updated.`,
+      text: `${name}'s data has been updated.`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {
@@ -61,45 +60,37 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
     <div className="small-container">
       <form onSubmit={handleUpdate}>
         <h1>Edit Item</h1>
-        <label htmlFor="firstName">Item Name</label>
+        <label htmlFor="name">Item Name</label>
         <input
-          id="firstName"
+          id="name"
           type="text"
-          name="firstName"
-          value={firstName}
-          onChange={e => setFirstName(e.target.value)}
+          name="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
-        <label htmlFor="lastName">Description</label>
+        <label htmlFor="description">Description</label>
         <input
-          id="lastName"
+          id="description"
           type="text"
-          name="lastName"
-          value={lastName}
-          onChange={e => setLastName(e.target.value)}
+          name="description"
+          value={description}
+          onChange={e => setDescription(e.target.value)}
         />
-        <label htmlFor="email">Units Available</label>
+        <label htmlFor="unitsAvailable">Units Available</label>
         <input
-          id="email"
-          type="email"
-          name="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-        <label htmlFor="salary">Price per Unit ($)</label>
-        <input
-          id="salary"
+          id="unitsAvailable"
           type="number"
-          name="salary"
-          value={salary}
-          onChange={e => setSalary(e.target.value)}
+          name="unitsAvailable"
+          value={unitsAvailable}
+          onChange={e => setUnitsAvailable(e.target.value)}
         />
-        <label htmlFor="date">Total Price ($)</label>
+        <label htmlFor="pricePerUnit">Price per Unit ($)</label>
         <input
-          id="date"
-          type="date"
-          name="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
+          id="pricePerUnit"
+          type="number"
+          name="pricePerUnit"
+          value={pricePerUnit}
+          onChange={e => setSalary(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>
           <input type="submit" value="Update" />

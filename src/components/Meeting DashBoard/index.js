@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
@@ -6,7 +6,8 @@ import Table from './Table';
 import Add from './Add';
 import Edit from './Edit';
 
-import { meetingsData } from '../../data';
+import { meetingsData } from '../../data/templates';
+import { httpClient } from '../../data/';
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [meetings, setMeetings] = useState(meetingsData);
@@ -15,21 +16,20 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await loadData("http://localhost:8080/api/v1/meetings/");
-        console.log(data);
-        if (data && data.length > 0) {
-          setItems(data);
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchData = useCallback(async () => {
+    try {
+      const data = await httpClient.get("http://localhost:8080/api/v1/meetings/");
+      if (data && data.length > 0) {
+        setMeetings(data);
       }
-    };
-
-    fetchData();
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); 
 
   const handleEdit = id => {
     const [meeting] = meetings.filter(meeting => meeting.id === id);
@@ -56,12 +56,22 @@ const Dashboard = ({ setIsAuthenticated }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
-        const [meeting] = meetings.filter((meeting) => meeting.id === id);
+        async function deleteItem() {
+          const url = `http://localhost:8080/api/v1/meetings/${id}`; // Replace with your actual API endpoint
+          try {
+            const statusCode = await httpClient.delete(url);
+          } catch (error) {
+            console.error('Error:', error);
+          } finally {
+            fetchData();
+          }
+        }
+        deleteItem();
   
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: `${meeting.firstName} ${meeting.lastName}'s data has been deleted.`,
+          text: `The data has been deleted.`,
           showConfirmButton: false,
           timer: 1500,
           customClass: {
@@ -69,10 +79,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
             confirmButton: 'button muted-button'
           },
         });
-  
-        const meetingsCopy = meetings.filter((meeting) => meeting.id !== id);
-        localStorage.setItem('meetings_data', JSON.stringify(meetingsCopy));
-        setMeetings(meetingsCopy);
       }
     });
   };
@@ -100,6 +106,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           meetings={meetings}
           setMeetings={setMeetings}
           setIsAdding={setIsAdding}
+          fetchData={fetchData}
         />
       )}
       {isEditing && (
@@ -108,6 +115,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           selectedMeeting={selectedMeeting}
           setMeetings={setMeetings}
           setIsEditing={setIsEditing}
+          fetchData={fetchData}
         />
       )}
     </div>

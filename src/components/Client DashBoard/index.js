@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
@@ -6,7 +6,8 @@ import Table from './Table';
 import Add from './Add';
 import Edit from './Edit';
 
-import { clientsData } from '../../data';
+import { clientsData } from '../../data/templates';
+import { httpClient } from '../../data/';
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [clients, setClients] = useState(clientsData);
@@ -15,21 +16,20 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await loadData("http://localhost:8080/api/v1/clients/");
-        console.log(data);
-        if (data && data.length > 0) {
-          setItems(data);
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchData = useCallback(async () => {
+    try {
+      const data = await httpClient.get("http://localhost:8080/api/v1/clients/");
+      if (data && data.length > 0) {
+        setClients(data);
       }
-    };
-
-    fetchData();
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); 
 
   const handleEdit = id => {
     const [client] = clients.filter(client => client.id === id);
@@ -56,22 +56,28 @@ const Dashboard = ({ setIsAuthenticated }) => {
       },
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
-        const [client] = clients.filter((client) => client.id === id);
+        async function deleteClient() {
+          const url = `http://localhost:8080/api/v1/clients/${id}`; // Replace with your actual API endpoint
+          try {
+            const statusCode = await httpClient.delete(url);
+          } catch (error) {
+            console.error('Error:', error);
+          } finally {
+            fetchData();
+          }
+        }
+        deleteClient();
   
         Swal.fire({
           icon: 'success',
           title: 'Deleted!',
-          text: `${client.firstName} ${client.lastName}'s data has been deleted.`,
+          text: `The data has been deleted.`,
           showConfirmButton: false,
           timer: 1500,
           customClass: {
             popup: 'darkblue-popup', // Applying the custom class again
           },
         });
-  
-        const clientsCopy = clients.filter((client) => client.id !== id);
-        localStorage.setItem('clients_data', JSON.stringify(clientsCopy));
-        setClients(clientsCopy);
       }
     });
   };
@@ -99,6 +105,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           clients={clients}
           setClients={setClients}
           setIsAdding={setIsAdding}
+          fetchData={fetchData}
         />
       )}
       {isEditing && (
@@ -107,6 +114,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
           selectedClient={selectedClient}
           setClients={setClients}
           setIsEditing={setIsEditing}
+          fetchData={fetchData}
         />
       )}
     </div>

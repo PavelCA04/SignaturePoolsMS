@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { httpClient } from '../../data/';
 
-const Add = ({ employees, setEmployees, setIsAdding }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+const Add = ({ employees, setEmployees, setIsAdding, fetchData }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [salary, setSalary] = useState('');
-  const [date, setDate] = useState('');
+  const [address, setAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const handleAdd = e => {
     e.preventDefault();
 
-    if (!firstName || !lastName || !email || !salary || !date) {
+    if (!name || !email || !address || !phoneNumber) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -23,25 +23,28 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
       });
     }
 
-    const id = employees.length + 1;
-    const newEmployee = {
-      id,
-      firstName,
-      lastName,
-      email,
-      salary,
-      date,
-    };
-
-    employees.push(newEmployee);
-    localStorage.setItem('employees_data', JSON.stringify(employees));
-    setEmployees(employees);
+    async function addItem() {
+      const url = 'http://localhost:8080/api/v1/employees/'; // Replace with your actual API endpoint
+      try {
+        const statusCode = await httpClient.post(url, {
+          name,
+          email,
+          address,
+          phoneNumber,
+        });
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        fetchData();
+      }
+    }
+    addItem();
     setIsAdding(false);
 
     Swal.fire({
       icon: 'success',
       title: 'Added!',
-      text: `${firstName} ${lastName}'s data has been Added.`,
+      text: `${name}'s data has been Added.`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {
@@ -54,21 +57,13 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
     <div className="small-container">
       <form onSubmit={handleAdd}>
         <h1>Add Employee</h1>
-        <label htmlFor="firstName">First Name</label>
+        <label htmlFor="name">First Name</label>
         <input
-          id="firstName"
+          id="name"
           type="text"
-          name="firstName"
-          value={firstName}
-          onChange={e => setFirstName(e.target.value)}
-        />
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          id="lastName"
-          type="text"
-          name="lastName"
-          value={lastName}
-          onChange={e => setLastName(e.target.value)}
+          name="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
         <label htmlFor="email">Email</label>
         <input
@@ -78,21 +73,21 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="salary">Home Address ($)</label>
+        <label htmlFor="address">Address</label>
         <input
-          id="salary"
-          type="number"
-          name="salary"
-          value={salary}
-          onChange={e => setSalary(e.target.value)}
+          id="address"
+          type="text"
+          name="address"
+          value={address}
+          onChange={e => setAddress(e.target.value)}
         />
-        <label htmlFor="date">Phone Number</label>
+        <label htmlFor="address">Phone Number</label>
         <input
-          id="date"
-          type="date"
-          name="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
+          id="phoneNumber"
+          type="tel"
+          name="phoneNumber"
+          value={phoneNumber}
+          onChange={e => setPhoneNumber(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>
           <input type="submit" value="Add" />

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const cors = require('cors');
 const config = require('./env');
 
@@ -6,6 +7,11 @@ const routes = require('./backend/routes/index');
 
 const app = express();
 const port = config.serverPort;
+
+app.use((req, res, next) => {
+    process.env.TZ = 'UTC';
+    next();
+});
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 

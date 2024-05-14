@@ -197,9 +197,9 @@ const removeEmployee = (req, res) => {
 
 // Inventory Functions
 const addItem = (req, res) => {
-    const { name, description, unitsAvailable } = req.body;
+    const { name, description, unitsAvailable, pricePerUnit } = req.body;
 
-    pool.query(queries.addItem, [name, description, unitsAvailable], (error, results) => {
+    pool.query(queries.addItem, [ name, description, unitsAvailable, pricePerUnit ], (error, results) => {
         if (error){
             res.status(500).send("Item not created correctly");
             console.log(error.message);
@@ -240,9 +240,9 @@ const updateItem = (req, res) => {
         if (clientNotFound) {
             res.send("Item not found.")
         } else {
-            const { name, description, unitsAvailable} = req.body;
+            const { name, description, unitsAvailable, pricePerUnit } = req.body;
 
-            pool.query(queries.updateItem, [id, name, description, unitsAvailable], (error, results) => {
+            pool.query(queries.updateItem, [ id, name, description, unitsAvailable, pricePerUnit ], (error, results) => {
                 if(error){
                     res.status(500).send("Item not updated correctly");
                     console.log(error.message);
@@ -268,9 +268,9 @@ const removeItem = (req, res) => {
 
 // Meeting Functions
 const addMeeting = (req, res) => {
-    const { name, date } = req.body;
+    const { name, description, location, date } = req.body;
 
-    pool.query(queries.addMeeting, [name, date], (error, results) => {
+    pool.query(queries.addMeeting, [name, description, location, date], (error, results) => {
         if (error){
             res.status(500).send("Meeting not created correctly");
             console.log(error.message);
@@ -311,9 +311,9 @@ const updateMeeting = (req, res) => {
         if (clientNotFound) {
             res.send("Meeting not found.")
         } else {
-            const { name, date } = req.body;
+            const { name, description, location, date } = req.body;
 
-            pool.query(queries.updateMeeting, [ id, name, date ], (error, results) => {
+            pool.query(queries.updateMeeting, [ id, name, description, location, date ], (error, results) => {
                 if(error){
                     res.status(500).send("Meeting not updated correctly");
                     console.log(error.message);
