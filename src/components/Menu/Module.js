@@ -9,15 +9,14 @@ const Modules = () => {
     { name: 'MEETINGS DASHBOARD', description: " || General information about the company's meetings", route: '/meetings' },
     { name: 'EMPLOYEES DASHBOARD', description: " || General information about the company's employees", route: '/employees' },
     { name: 'CLIENTS DASHBOARD', description: " || General information about the company's clients", route: '/clients' },
-  ]; // Adding a route field to each module
+  ]; 
 
   const navigate = useNavigate();
 
   const handleModuleClick = (moduleName, moduleRoute) => {
     Swal.fire({
       icon: 'info',
-      title: `You will be directed to the ${moduleName}`,
-      //text: `${moduleName}'s data has been Added.`,
+      title: `You will be directed to the ${moduleName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {

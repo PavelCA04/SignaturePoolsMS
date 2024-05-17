@@ -3,11 +3,11 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setIsAuthenticated }) => {
-  const adminEmail = 'admin@example.com';
-  const adminPassword = 'qwerty';
+  const adminEmail = 'signaturepools@gmail.com';
+  const adminPassword = 'admin';
 
-  const [email, setEmail] = useState('admin@example.com');
-  const [password, setPassword] = useState('qwerty');
+  const [email, setEmail] = useState('signaturepools@gmail.com');
+  const [password, setPassword] = useState('admin');
   const navigate = useNavigate();
 
   const handleLogin = e => {
@@ -71,7 +71,7 @@ const Login = ({ setIsAuthenticated }) => {
           id="email"
           type="email"
           name="email"
-          placeholder="admin@example.com"
+          placeholder="name@gmail.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
@@ -80,7 +80,7 @@ const Login = ({ setIsAuthenticated }) => {
           id="password"
           type="password"
           name="password"
-          placeholder="qwerty"
+          placeholder="1234"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />

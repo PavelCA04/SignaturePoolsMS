@@ -45,7 +45,7 @@ const Header = ({ setIsAdding, setIsAuthenticated, onSearch, subtitle, returnToM
           </div>
         </div>
         <h2 className="header-subtitle" style={{ marginTop: '10px' }}>
-          {subtitle || "Manage your inventory efficiently and effectively."}
+          {subtitle || "General information about the company's inventory."}
         </h2>
       </div>
 

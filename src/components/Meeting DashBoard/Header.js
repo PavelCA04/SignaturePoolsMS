@@ -49,9 +49,8 @@ const MeetingHeader = ({ setIsAdding, setIsAuthenticated, onSearch, meetingData,
             <Logout setIsAuthenticated={setIsAuthenticated} />
           </div>
         </div>
-        {/* Add the subtitle here */}
         <h2 className="header-subtitle" style={{ marginTop: '10px' }}>
-          {subtitle || "Manage your meetings efficiently and effectively."}
+          {subtitle || "General information about the company's multiple meetings."}
         </h2>
       </div>
 
@@ -62,7 +61,7 @@ const MeetingHeader = ({ setIsAdding, setIsAuthenticated, onSearch, meetingData,
             placeholder="Search Meetings..."
             value={searchTerm}
             onChange={handleSearchChange}
-            style={{ padding: '0.75rem 1.25rem', width: '1028px' }}
+            style={{ padding: '0.75rem 1.25rem', width: '810px' }}
           />
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>

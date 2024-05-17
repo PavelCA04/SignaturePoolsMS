@@ -44,7 +44,7 @@ const ClientHeader = ({ setIsAdding, setIsAuthenticated, onSearch, subtitle, ret
           </div>
         </div>
         <h2 className="header-subtitle" style={{ marginTop: '10px' }}>
-          {subtitle || "Manage your clients efficiently and effectively."}
+          {subtitle || "General information about the company's clients."}
         </h2>
       </div>
 

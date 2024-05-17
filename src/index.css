@@ -950,6 +950,32 @@ a.muted-button:active {
   background: transparent;
 }
 
+.swal2-confirm {
+  background-color: var(--darkblue) !important;
+  border: 1px solid var(--red) !important;
+  color: var(--grey)!important;
+}
+
+.swal2-cancel {
+  background-color: var(--darkblue)!important;
+  color: var(--grey)!important;
+  border: 1px solid var(--green) !important;  
+}
+
+.swal2-confirm:hover, .swal2-confirm:focus {
+  color: var(--lightred) !important;
+  border: 1px solid var(--lightred) !important;
+}
+
+.swal2-cancel:hover, .swal2-cancel:focus {
+  color: var(--lightgreen) !important;
+  border: 1px solid var(--lightgreen) !important;
+}
+
+.swal2-actions .swal2-styled:not(:last-child) {
+  margin-right: 10px; /* Adjust the value as needed */
+}
+
 .round-button,
 a.round-button {
   border-radius: 40px;

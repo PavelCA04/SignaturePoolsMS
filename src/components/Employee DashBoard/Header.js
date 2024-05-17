@@ -46,7 +46,7 @@ const EmployeeHeader = ({ setIsAdding, setIsAuthenticated, onSearch, subtitle, r
           </div>
         </div>
         <h2 className="header-subtitle" style={{ marginTop: '10px' }}>
-          {subtitle || "Manage your employees efficiently and effectively."}
+          {subtitle || "General information about the company's employees."}
         </h2>
       </div>
 
@@ -58,7 +58,7 @@ const EmployeeHeader = ({ setIsAdding, setIsAuthenticated, onSearch, subtitle, r
             placeholder="Search employees..."
             value={searchTerm}
             onChange={handleSearchChange}
-            style={{ width: '1028px', padding: '0.75rem 1.25rem' }}
+            style={{ width: '990px', padding: '0.75rem 1.25rem' }}
           />
           <button onClick={() => setIsAdding(true)}>Add Employee</button>
         </div>
