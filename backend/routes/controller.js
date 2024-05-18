@@ -155,7 +155,7 @@ const getEmployees = (req, res) => {
     if (search) {
         pool.query(queries.getEmployeesByName, [search], (error, results) => {
             if (error){
-                res.status(500).json("Client not found");
+                res.status(500).json("Employee not found");
                 console.log(error.message);
             } else{
                 res.status(200).json(results.rows);
@@ -164,7 +164,7 @@ const getEmployees = (req, res) => {
     } else {
         pool.query(queries.getEmployees, (error, results) => {
             if(error){
-                res.status(500).json("Clients not available");
+                res.status(500).json("Employees not available");
                 console.log(error.message);
             } else{
                 res.status(200).json(results.rows);
@@ -238,7 +238,7 @@ const getItems = (req, res) => {
     if (search) {
         pool.query(queries.getItemByName, [search], (error, results) => {
             if (error){
-                res.status(500).json("Client not found");
+                res.status(500).json("Item not found");
                 console.log(error.message);
             } else{
                 res.status(200).json(results.rows);
@@ -247,7 +247,7 @@ const getItems = (req, res) => {
     } else {
         pool.query(queries.getItems, (error, results) => {
             if(error){
-                res.status(500).json("Clients not available");
+                res.status(500).json("Items not available");
                 console.log(error.message);
             } else{
                 res.status(200).json(results.rows);
@@ -317,14 +317,26 @@ const addMeeting = (req, res) => {
 }
 
 const getMeetings = (req, res) => {
-    pool.query(queries.getMeetings, (error, results) => {
-        if(error){
-            res.status(500).json("Meeting not available");
-            console.log(error.message);
-        } else{
-            res.status(200).json(results.rows);
-        }
-    });
+    const {search} = req.query;
+    if (search) {
+        pool.query(queries.getMeetingsByName, [search], (error, results) => {
+            if (error){
+                res.status(500).json("Client not found");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            };
+        })
+    } else {
+        pool.query(queries.getMeetings, (error, results) => {
+            if(error){
+                res.status(500).json("Clients not available");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            }
+        });
+    }
 };
 
 const getMeetingById = (req, res) => {

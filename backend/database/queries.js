@@ -116,6 +116,13 @@ const getMeetingById = `
     WHERE id = $1;
 `;
 
+const getMeetingsByName = `
+    SELECT *
+    FROM Meetings
+    WHERE UPPER(name) LIKE '%' || UPPER($1) || '%';
+          
+`;
+
 const updateMeeting = `
     CALL SPUpdateMeetingByID($1, $2, $3, $4, $5);
 `;
@@ -160,6 +167,7 @@ module.exports = {
     addMeeting,
     getMeetings,
     getMeetingById,
+    getMeetingsByName,
     updateMeeting,
     removeMeeting,
 };

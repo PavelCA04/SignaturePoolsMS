@@ -19,7 +19,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const fetchData = useCallback(async (param = '') => {
     try {
       const data = await httpClient.get(buildURL(param));
-      if (data && data.length > 0) {
+      if (data) {
         setEmployees(data);
       }
     } catch (error) {
