@@ -86,6 +86,12 @@ const getItemById = `
     WHERE id = $1;
 `;
 
+const getItemByName = `
+    SELECT *
+    FROM Inventory
+    WHERE UPPER(name) LIKE '%' || UPPER($1) || '%';
+`;
+
 const updateItem = `
     CALL SPUpdateItemByID($1, $2, $3, $4, $5);
 `
@@ -146,6 +152,7 @@ module.exports = {
     addItem,
     getItems,
     getItemById,
+    getItemByName,
     updateItem,
     removeItem,
 

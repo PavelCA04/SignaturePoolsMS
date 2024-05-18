@@ -18,9 +18,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (param = '') => {
     try {
-      const data = await httpClient.get("http://localhost:8080/api/v1/items/");
+      const data = await httpClient.get(buildURL(param));
       if (data && data.length > 0) {
         setItems(data);
       }
@@ -28,6 +28,13 @@ const Dashboard = ({ setIsAuthenticated }) => {
       console.error(error);
     }
   }, []);
+
+  const buildURL = (param) => {
+    if (param){
+      return `http://localhost:8080/api/v1/items?search=${param}`;
+    }
+    return `http://localhost:8080/api/v1/items`;
+  }
 
   useEffect(() => {
     fetchData();
@@ -94,6 +101,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
             setIsAdding={setIsAdding}
             setIsAuthenticated={setIsAuthenticated}
             returnToMainMenu={ReturnToMainMenu}
+            fetchData={fetchData}
           />
           <Table
             items={items}

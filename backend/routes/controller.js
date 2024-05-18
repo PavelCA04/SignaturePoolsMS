@@ -234,14 +234,26 @@ const addItem = (req, res) => {
 }
 
 const getItems = (req, res) => {
-    pool.query(queries.getItems, (error, results) => {
-        if(error){
-            res.status(500).json("Item not available");
-            console.log(error.message);
-        } else{
-            res.status(200).json(results.rows);
-        }
-    });
+    const {search} = req.query;
+    if (search) {
+        pool.query(queries.getItemByName, [search], (error, results) => {
+            if (error){
+                res.status(500).json("Client not found");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            };
+        })
+    } else {
+        pool.query(queries.getItems, (error, results) => {
+            if(error){
+                res.status(500).json("Clients not available");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            }
+        });
+    }
 };
 
 const getItemById = (req, res) => {
