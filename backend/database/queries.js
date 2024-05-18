@@ -23,6 +23,13 @@ const getClientById = `
     WHERE id = $1;
 `;
 
+const getClientsByName = `
+    SELECT *
+    FROM Users
+    WHERE type = 'CLIENT' AND
+          UPPER(name) LIKE '%' || UPPER($1) || '%';
+`;
+
 const updateClient = `
     CALL SPUpdateUserByID($1, $2, $3, $4, $5);
 `;
@@ -46,6 +53,13 @@ const getEmployeeById = `
     SELECT * 
     FROM Users 
     WHERE id = $1;
+`;
+
+const getEmployeesByName = `
+    SELECT *
+    FROM Users
+    WHERE type = 'EMPLOYEE' AND
+          UPPER(name) LIKE '%' || UPPER($1) || '%';
 `;
 
 const updateEmployee = `
@@ -115,6 +129,7 @@ module.exports = {
     // Clients
     addClient,
     getClients,
+    getClientsByName,
     getClientById,
     updateClient,
     removeClient,
@@ -123,6 +138,7 @@ module.exports = {
     addEmployee,
     getEmployees,
     getEmployeeById,
+    getEmployeesByName,
     updateEmployee,
     removeEmployee,
 

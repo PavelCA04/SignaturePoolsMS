@@ -67,14 +67,26 @@ const addClient = (req, res) => {
 }
 
 const getClients = (req, res) => {
-    pool.query(queries.getClients, (error, results) => {
-        if(error){
-            res.status(500).json("Clients not available");
-            console.log(error.message);
-        } else{
-            res.status(200).json(results.rows);
-        }
-    });
+    const {search} = req.query;
+    if (search) {
+        pool.query(queries.getClientsByName, [search], (error, results) => {
+            if (error){
+                res.status(500).json("Client not found");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            };
+        })
+    } else {
+        pool.query(queries.getClients, (error, results) => {
+            if(error){
+                res.status(500).json("Clients not available");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            }
+        });
+    }
 };
 
 const getClientById = (req, res) => {
@@ -139,14 +151,26 @@ const addEmployee = (req, res) => {
 }
 
 const getEmployees = (req, res) => {
-    pool.query(queries.getEmployees, (error, results) => {
-        if(error){
-            res.status(500).json("Employee not available");
-            console.log(error.message);
-        } else{
-            res.status(200).json(results.rows);
-        }
-    });
+    const {search} = req.query;
+    if (search) {
+        pool.query(queries.getEmployeesByName, [search], (error, results) => {
+            if (error){
+                res.status(500).json("Client not found");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            };
+        })
+    } else {
+        pool.query(queries.getEmployees, (error, results) => {
+            if(error){
+                res.status(500).json("Clients not available");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            }
+        });
+    }
 };
 
 const getEmployeeById = (req, res) => {
