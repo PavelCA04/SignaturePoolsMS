@@ -22,15 +22,13 @@ const MainMenuIcon = (
 );
 
 
-const MeetingHeader = ({ setIsAdding, setIsAuthenticated, onSearch, meetingData, subtitle, returnToMainMenu }) => {
+const MeetingHeader = ({ setIsAdding, setIsAuthenticated, onSearch, meetingData, subtitle, returnToMainMenu, fetchData }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e) => {    
     const newSearchTerm = e.target.value;
+    fetchData(newSearchTerm);
     setSearchTerm(newSearchTerm);
-    if (onSearch) {
-      onSearch(newSearchTerm);
-    }
   };
 
   const handleGeneratePdf = () => {

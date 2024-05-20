@@ -20,15 +20,13 @@ const MainMenuIcon = (
   </svg>
 );
 
-const ClientHeader = ({ setIsAdding, setIsAuthenticated, onSearch, subtitle, returnToMainMenu }) => {
+const ClientHeader = ({ setIsAdding, setIsAuthenticated, isSearching, subtitle, returnToMainMenu, fetchData }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e) => {    
     const newSearchTerm = e.target.value;
+    fetchData(newSearchTerm);
     setSearchTerm(newSearchTerm);
-    if (onSearch) {
-      onSearch(newSearchTerm);
-    }
   };
 
   return (

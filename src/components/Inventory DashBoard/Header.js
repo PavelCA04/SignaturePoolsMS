@@ -21,15 +21,13 @@ const MainMenuIcon = (
   </svg>
 );
 
-const Header = ({ setIsAdding, setIsAuthenticated, onSearch, subtitle, returnToMainMenu }) => {
+const Header = ({ setIsAdding, setIsAuthenticated, onSearch, subtitle, returnToMainMenu, fetchData }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e) => {    
     const newSearchTerm = e.target.value;
+    fetchData(newSearchTerm);
     setSearchTerm(newSearchTerm);
-    if (onSearch) {
-      onSearch(newSearchTerm);
-    }
   };
 
   return (

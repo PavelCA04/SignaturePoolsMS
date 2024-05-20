@@ -14,18 +14,26 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const navigate = useNavigate();
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (param = '') => {
     try {
-      const data = await httpClient.get("http://localhost:8080/api/v1/clients/");
-      if (data && data.length > 0) {
+      const data = await httpClient.get(buildURL(param));
+      if (data) {
         setClients(data);
       }
     } catch (error) {
       console.error(error);
     }
   }, []);
+
+  const buildURL = (param) => {
+    if (param){
+      return `http://localhost:8080/api/v1/clients?search=${param}`;
+    }
+    return `http://localhost:8080/api/v1/clients`;
+  }
 
   useEffect(() => {
     fetchData();
@@ -92,6 +100,8 @@ const Dashboard = ({ setIsAuthenticated }) => {
             setIsAdding={setIsAdding}
             setIsAuthenticated={setIsAuthenticated}
             returnToMainMenu={ReturnToMainMenu}
+            isSearching={isSearching}
+            fetchData={fetchData}
           />
           <Table
             clients={clients}

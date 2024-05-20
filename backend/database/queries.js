@@ -23,6 +23,13 @@ const getClientById = `
     WHERE id = $1;
 `;
 
+const getClientsByName = `
+    SELECT *
+    FROM Users
+    WHERE type = 'CLIENT' AND
+          UPPER(name) LIKE '%' || UPPER($1) || '%';
+`;
+
 const updateClient = `
     CALL SPUpdateUserByID($1, $2, $3, $4, $5);
 `;
@@ -46,6 +53,13 @@ const getEmployeeById = `
     SELECT * 
     FROM Users 
     WHERE id = $1;
+`;
+
+const getEmployeesByName = `
+    SELECT *
+    FROM Users
+    WHERE type = 'EMPLOYEE' AND
+          UPPER(name) LIKE '%' || UPPER($1) || '%';
 `;
 
 const updateEmployee = `
@@ -72,6 +86,12 @@ const getItemById = `
     WHERE id = $1;
 `;
 
+const getItemByName = `
+    SELECT *
+    FROM Inventory
+    WHERE UPPER(name) LIKE '%' || UPPER($1) || '%';
+`;
+
 const updateItem = `
     CALL SPUpdateItemByID($1, $2, $3, $4, $5);
 `
@@ -96,6 +116,13 @@ const getMeetingById = `
     WHERE id = $1;
 `;
 
+const getMeetingsByName = `
+    SELECT *
+    FROM Meetings
+    WHERE UPPER(name) LIKE '%' || UPPER($1) || '%';
+          
+`;
+
 const updateMeeting = `
     CALL SPUpdateMeetingByID($1, $2, $3, $4, $5);
 `;
@@ -115,6 +142,7 @@ module.exports = {
     // Clients
     addClient,
     getClients,
+    getClientsByName,
     getClientById,
     updateClient,
     removeClient,
@@ -123,6 +151,7 @@ module.exports = {
     addEmployee,
     getEmployees,
     getEmployeeById,
+    getEmployeesByName,
     updateEmployee,
     removeEmployee,
 
@@ -130,6 +159,7 @@ module.exports = {
     addItem,
     getItems,
     getItemById,
+    getItemByName,
     updateItem,
     removeItem,
 
@@ -137,6 +167,7 @@ module.exports = {
     addMeeting,
     getMeetings,
     getMeetingById,
+    getMeetingsByName,
     updateMeeting,
     removeMeeting,
 };
