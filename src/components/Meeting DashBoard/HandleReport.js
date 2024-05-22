@@ -1,7 +1,8 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet, PDFViewer, pdf } from '@react-pdf/renderer';
 import Swal from 'sweetalert2';
-import { httpClient } from '../../data/';
+import { httpClient } from '../../data';
+import DocumentPDF from './pdf/DocumentPDF';
 
 
 const fileDocsvgIcon = `
@@ -60,31 +61,9 @@ const buildURL = (startDate, endDate) => {
   }
   return `http://localhost:8080/api/v1/meetings`;
 }
-const generatePdfReport = async (meetings) => {
-  const MyDoc = () => (
-    <Document>
-      <Page style={styles.page}>
-        <View style={styles.section}>
-          <Text style={styles.header}>Meeting Report</Text>
-          {meetings.length > 0 ? (
-            <View style={styles.table}>
-              {meetings.map((meeting) => (
-                <View style={styles.tableRow} key={meeting.id}>
-                  <Text style={styles.tableCell}>{meeting.id}</Text>
-                  <Text style={styles.tableCell}>{meeting.name}</Text>
-                  <Text style={styles.tableCell}>{meeting.date}</Text>
-                </View>
-              ))}
-            </View>
-          ) : (
-            <Text>No meetings found</Text>
-          )}
-        </View>
-      </Page>
-    </Document>
-  );
 
-  const blob = await pdf(<MyDoc />).toBlob();
+const generatePdfReport = async (meetings, startDate, endDate) => {
+  const blob = await pdf(<DocumentPDF data={meetings} startDate={startDate} endDate={endDate} />).toBlob();
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
@@ -142,7 +121,7 @@ const showGeneratePdfPopup = (meetingData) => {
             try {
               const data = await httpClient.get(buildURL(startDate, endDate));
               if (data) {
-                generatePdfReport(data);
+                generatePdfReport(data, startDate, endDate);
               }
             } catch (error) {
               console.error(error);

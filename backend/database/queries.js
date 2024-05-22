@@ -125,7 +125,8 @@ const getMeetingsByName = `
 const getMeetingsByDate = `
     SELECT *
     FROM Meetings
-    WHERE date BETWEEN $1 AND $2;
+    WHERE date BETWEEN $1 AND $2
+    ORDER BY date ASC;
 `;
 
 const updateMeeting = `

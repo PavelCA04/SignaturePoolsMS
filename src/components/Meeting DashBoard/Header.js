@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Logout from '../Logout';
-import { showGeneratePdfPopup } from '../Meeting DashBoard/GenPDFReport';
+import { showGeneratePdfPopup } from './HandleReport';
 
 const MainMenuIcon = (
   <svg
@@ -32,7 +32,7 @@ const MeetingHeader = ({ setIsAdding, setIsAuthenticated, onSearch, meetingData,
   };
 
   const handleGeneratePdf = () => {
-    showGeneratePdfPopup(meetingData);
+    showGeneratePdfPopup();
   };
 
   return (
