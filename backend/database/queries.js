@@ -119,8 +119,13 @@ const getMeetingById = `
 const getMeetingsByName = `
     SELECT *
     FROM Meetings
-    WHERE UPPER(name) LIKE '%' || UPPER($1) || '%';
-          
+    WHERE UPPER(name) LIKE '%' || UPPER($1) || '%';       
+`;
+
+const getMeetingsByDate = `
+    SELECT *
+    FROM Meetings
+    WHERE date BETWEEN $1 AND $2;
 `;
 
 const updateMeeting = `
@@ -168,6 +173,7 @@ module.exports = {
     getMeetings,
     getMeetingById,
     getMeetingsByName,
+    getMeetingsByDate,
     updateMeeting,
     removeMeeting,
 };

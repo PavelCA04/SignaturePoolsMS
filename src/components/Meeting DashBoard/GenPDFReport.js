@@ -1,6 +1,8 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet , PDFViewer} from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, PDFViewer, pdf } from '@react-pdf/renderer';
 import Swal from 'sweetalert2';
+import { httpClient } from '../../data/';
+
 
 const fileDocsvgIcon = `
 <svg width="76" height="76" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top: 10px;">
@@ -52,8 +54,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const generatePdfReport = (meetings) => {
-  return (
+const buildURL = (startDate, endDate) => {
+  if (startDate && endDate){
+    return `http://localhost:8080/api/v1/meetings?startDate='${startDate}'&endDate='${endDate}'`;
+  }
+  return `http://localhost:8080/api/v1/meetings`;
+}
+const generatePdfReport = async (meetings) => {
+  const MyDoc = () => (
     <Document>
       <Page style={styles.page}>
         <View style={styles.section}>
@@ -65,7 +73,6 @@ const generatePdfReport = (meetings) => {
                   <Text style={styles.tableCell}>{meeting.id}</Text>
                   <Text style={styles.tableCell}>{meeting.name}</Text>
                   <Text style={styles.tableCell}>{meeting.date}</Text>
-                  <Text style={styles.tableCell}>{meeting.participants.join(', ')}</Text>
                 </View>
               ))}
             </View>
@@ -76,6 +83,14 @@ const generatePdfReport = (meetings) => {
       </Page>
     </Document>
   );
+
+  const blob = await pdf(<MyDoc />).toBlob();
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'meeting_report.pdf';
+  link.click();
+  URL.revokeObjectURL(url);
 };
 
 const showGeneratePdfPopup = (meetingData) => {
@@ -123,13 +138,22 @@ const showGeneratePdfPopup = (meetingData) => {
               popup: 'darkblue-popup',
             },
           });
-          generatePdfReportFAKE(meetingData, startDate, endDate)
+          async function meetingsData() {
+            try {
+              const data = await httpClient.get(buildURL(startDate, endDate));
+              if (data) {
+                generatePdfReport(data);
+              }
+            } catch (error) {
+              console.error(error);
+            }
+          }
+          meetingsData()
             .then((successMessage) => {
               Swal.fire({
                 icon: 'success',
                 title: 'PDF Generated',
                 text: successMessage,
-                confirmButtonText: 'Download PDF',
                 customClass: {
                   popup: 'darkblue-popup',
                   confirmButton: 'swal2-cancel',
@@ -140,7 +164,7 @@ const showGeneratePdfPopup = (meetingData) => {
                   <p style="margin-top: 25px;">${successMessage}</p>
                 </div>
               `,
-              });
+              })
             })
             .catch((errorMessage) => {
               Swal.fire({
@@ -181,21 +205,6 @@ const showGeneratePdfPopup = (meetingData) => {
     }
   });
 };
-
-const generatePdfReportFAKE = (meetingData, startDate, endDate) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      // Simulate generating the PDF
-      const success = Math.random() > 0.1; // 90% chance of success
-      if (success) {
-        resolve("PDF Report Generated Successfully.");
-      } else {
-        reject("Failed to Generate PDF Report.");
-      }
-    }, 3000); 
-  });
-};
-
 
 // Define the MeetingReport component
 const MeetingReport = ({ meetings }) => {

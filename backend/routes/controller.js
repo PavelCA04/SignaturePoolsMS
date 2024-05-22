@@ -317,11 +317,23 @@ const addMeeting = (req, res) => {
 }
 
 const getMeetings = (req, res) => {
-    const {search} = req.query;
+    const { search, startDate, endDate } = req.query;
+    console.log(startDate, endDate);
     if (search) {
         pool.query(queries.getMeetingsByName, [search], (error, results) => {
             if (error){
-                res.status(500).json("Client not found");
+                res.status(500).json("Meetings not found");
+                console.log(error.message);
+            } else{
+                res.status(200).json(results.rows);
+            };
+        })
+    } else if (startDate && endDate) {
+        console.log('here');
+        pool.query(queries.getMeetingsByDate, [startDate, endDate], (error, results) => {
+            if (error){
+                res.status(500).json("Meetings not found");
+                console.log(error.name);
                 console.log(error.message);
             } else{
                 res.status(200).json(results.rows);
@@ -330,7 +342,7 @@ const getMeetings = (req, res) => {
     } else {
         pool.query(queries.getMeetings, (error, results) => {
             if(error){
-                res.status(500).json("Clients not available");
+                res.status(500).json("Meetings not available");
                 console.log(error.message);
             } else{
                 res.status(200).json(results.rows);
