@@ -67,7 +67,7 @@ const generatePdfReport = async (meetings, startDate, endDate) => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'meeting_report.pdf';
+  link.download = `Meeting_Report_${startDate}_${endDate}.pdf`;
   link.click();
   URL.revokeObjectURL(url);
 };
@@ -185,31 +185,4 @@ const showGeneratePdfPopup = (meetingData) => {
   });
 };
 
-// Define the MeetingReport component
-const MeetingReport = ({ meetings }) => {
-  return (
-    <Document>
-      <Page style={styles.page}>
-        <View style={styles.section}>
-          <Text style={styles.header}>Meeting Report</Text>
-          {meetings.length > 0 ? (
-            <View style={styles.table}>
-              {meetings.map((meeting) => (
-                <View style={styles.tableRow} key={meeting.id}>
-                  <Text style={styles.tableCell}>{meeting.id}</Text>
-                  <Text style={styles.tableCell}>{meeting.name}</Text>
-                  <Text style={styles.tableCell}>{meeting.date}</Text>
-                  <Text style={styles.tableCell}>{meeting.participants.join(', ')}</Text>
-                </View>
-              ))}
-            </View>
-          ) : (
-            <Text>No meetings found</Text>
-          )}
-        </View>
-      </Page>
-    </Document>
-  );
-};
-
-export { showGeneratePdfPopup, MeetingReport };
+export { showGeneratePdfPopup };

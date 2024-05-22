@@ -3,13 +3,6 @@ const controller = require('./controller')
 
 const router = Router();
 
-
-router.get('/users/', controller.getUsers);
-router.get('/users/:id', controller.getUsersById);
-router.post('/users/', controller.addUser);
-router.delete('/users/:id', controller.removeUser);
-router.put('/users/:id', controller.updateUser);
-
 // Clients routes
 router.post('/clients/', controller.addClient);
 router.get('/clients/', controller.getClients);
