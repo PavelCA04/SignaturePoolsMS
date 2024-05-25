@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { httpClient } from '../../data/';
+import { urlApi } from '../../config';
 
 
 const Add = ({ clients, setClients, setIsAdding, fetchData }) => {
@@ -25,7 +26,7 @@ const Add = ({ clients, setClients, setIsAdding, fetchData }) => {
     }
 
     async function addClient() {
-      const url = 'http://localhost:8080/api/v1/clients/'; // Replace with your actual API endpoint
+      const url = `${urlApi}clients/`; // Replace with your actual API endpoint
       try {
         const statusCode = await httpClient.post(url, {
           name,

@@ -8,6 +8,7 @@ import Edit from './Edit';
 
 import { meetingsData } from '../../data/templates';
 import { httpClient } from '../../data/';
+import { urlApi } from '../../config';
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [meetings, setMeetings] = useState(meetingsData);
@@ -29,9 +30,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
 
   const buildURL = (param) => {
     if (param){
-      return `http://localhost:8080/api/v1/meetings?search=${param}`;
+      return `${urlApi}meetings?search=${param}`;
     }
-    return `http://localhost:8080/api/v1/meetings`;
+    return `${urlApi}meetings`;
   }
 
   useEffect(() => {
@@ -64,7 +65,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
         async function deleteItem() {
-          const url = `http://localhost:8080/api/v1/meetings/${id}`; // Replace with your actual API endpoint
+          const url = `${urlApi}meetings/${id}`; // Replace with your actual API endpoint
           try {
             const statusCode = await httpClient.delete(url);
           } catch (error) {

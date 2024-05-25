@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { httpClient } from '../../data/';
+import { urlApi } from '../../config';
 
 const Edit = ({ clients, selectedClient, setClients, setIsEditing, fetchData }) => {
   const id = selectedClient.id;
@@ -26,7 +27,7 @@ const Edit = ({ clients, selectedClient, setClients, setIsEditing, fetchData }) 
     }
 
     async function updateClient() {
-      const url = `http://localhost:8080/api/v1/clients/${id}`; // Replace with your actual API endpoint
+      const url = `${urlApi}clients/${id}`; // Replace with your actual API endpoint
       try {
         const statusCode = await httpClient.put(url, {
           name,

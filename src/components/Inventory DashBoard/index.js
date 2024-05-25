@@ -8,6 +8,7 @@ import Edit from './Edit';
 
 import { itemsData } from '../../data/templates';
 import { httpClient } from '../../data/';
+import { urlApi } from '../../config';
 
 
 
@@ -31,9 +32,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
 
   const buildURL = (param) => {
     if (param){
-      return `http://localhost:8080/api/v1/items?search=${param}`;
+      return `${urlApi}items?search=${param}`;
     }
-    return `http://localhost:8080/api/v1/items`;
+    return `${urlApi}items`;
   }
 
   useEffect(() => {
@@ -66,7 +67,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
         async function deleteItem() {
-          const url = `http://localhost:8080/api/v1/items/${id}`; // Replace with your actual API endpoint
+          const url = `${urlApi}items/${id}`; // Replace with your actual API endpoint
           try {
             const statusCode = await httpClient.delete(url);
           } catch (error) {
