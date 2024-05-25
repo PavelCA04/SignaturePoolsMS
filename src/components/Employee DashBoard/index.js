@@ -8,6 +8,7 @@ import Edit from './Edit';
 
 import { employeesData } from '../../data/templates';
 import { httpClient } from '../../data/';
+import { urlApi } from '../../config';
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [employees, setEmployees] = useState(employeesData);
@@ -29,9 +30,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
 
   const buildURL = (param) => {
     if (param){
-      return `http://localhost:8080/api/v1/employees?search=${param}`;
+      return `${urlApi}employees?search=${param}`;
     }
-    return `http://localhost:8080/api/v1/employees`;
+    return `${urlApi}employees`;
   }
 
 
@@ -65,7 +66,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
         async function deleteEmployee() {
-          const url = `http://localhost:8080/api/v1/employees/${id}`; // Replace with your actual API endpoint
+          const url = `${urlApi}employees/${id}`; // Replace with your actual API endpoint
           try {
             const statusCode = await httpClient.delete(url);
           } catch (error) {

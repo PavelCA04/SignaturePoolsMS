@@ -8,6 +8,7 @@ import Edit from './Edit';
 
 import { clientsData } from '../../data/templates';
 import { httpClient } from '../../data/';
+import { urlApi } from '../../config';
 
 const Dashboard = ({ setIsAuthenticated }) => {
   const [clients, setClients] = useState(clientsData);
@@ -30,9 +31,9 @@ const Dashboard = ({ setIsAuthenticated }) => {
 
   const buildURL = (param) => {
     if (param){
-      return `http://localhost:8080/api/v1/clients?search=${param}`;
+      return `${urlApi}clients?search=${param}`;
     }
-    return `http://localhost:8080/api/v1/clients`;
+    return `${urlApi}clients`;
   }
 
   useEffect(() => {
@@ -65,7 +66,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
     }).then((result) => {
       if (result.isConfirmed) { // Corrected from 'result.value' to 'result.isConfirmed'
         async function deleteClient() {
-          const url = `http://localhost:8080/api/v1/clients/${id}`; // Replace with your actual API endpoint
+          const url = `${urlApi}clients/${id}`; // Replace with your actual API endpoint
           try {
             const statusCode = await httpClient.delete(url);
           } catch (error) {

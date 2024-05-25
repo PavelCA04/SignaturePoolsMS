@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { httpClient }  from '../../data/index';
+import { urlApi } from '../../config';
 
 const Edit = ({ items, selectedItem, setItems, setIsEditing, fetchData }) => {
   const id = selectedItem.id;
