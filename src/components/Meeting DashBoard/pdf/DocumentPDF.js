@@ -72,7 +72,7 @@ const DocumentPDF = ({ data, startDate, endDate }) => {
     <View style={styles.titleContainer}>
       <View style={styles.spaceBetween}>
         <View>
-          <Text style={styles.invoice}>Meetings Resume</Text>
+          <Text style={styles.invoice}>Meetings Report</Text>
           <Text style={styles.invoiceNumber}>Start Date: {startDate}</Text>
           <Text style={styles.invoiceNumber}>End Date: {endDate}</Text>
         </View>

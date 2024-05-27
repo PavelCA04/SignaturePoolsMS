@@ -128,11 +128,10 @@ const showGeneratePdfPopup = (meetingData) => {
             }
           }
           meetingsData()
-            .then((successMessage) => {
+            .then(() => {
               Swal.fire({
                 icon: 'success',
                 title: 'PDF Generated',
-                text: successMessage,
                 customClass: {
                   popup: 'darkblue-popup',
                   confirmButton: 'swal2-cancel',
@@ -140,7 +139,7 @@ const showGeneratePdfPopup = (meetingData) => {
                 html: `
                 <div style="display: flex; flex-direction: column; align-items: center;">
                   ${fileDownsvgIcon}
-                  <p style="margin-top: 25px;">${successMessage}</p>
+                  <p style="margin-top: 25px;">${'PDF Generated Successfully'}</p>
                 </div>
               `,
               })
