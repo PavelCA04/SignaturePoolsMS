@@ -57,6 +57,18 @@ const DocumentPDF = ({ data, startDate, endDate }) => {
     tbody2: { 
         flex: 2, borderRightWidth: 1
     },
+    text:{
+      fontSize: 9, 
+      paddingTop: 10, 
+      paddingBottom: 4, 
+      paddingLeft: 7, 
+      flex: 1,
+      color: '#BEC2DA',
+      borderColor: '#9A9A9A', 
+      borderBottomWidth: 1,
+      flexDirection: 'row', 
+      justifyContent: 'left',
+    }
 
   });
 
@@ -97,9 +109,9 @@ const DocumentPDF = ({ data, startDate, endDate }) => {
     </View>
   );
 
-  const TableBody = () => (
-
-    data.map((meeting, i) => (
+  const TableBody = () =>{
+    if (data.length > 0) {
+      return (data.map((meeting, i) => (
         <Fragment key={meeting.id}>
         <View style={{ width: '100%', flexDirection: 'row' }}>
           <View style={styles.tbody}>
@@ -116,8 +128,19 @@ const DocumentPDF = ({ data, startDate, endDate }) => {
           </View>
         </View>
       </Fragment>
-    ))
-  );
+      )));
+    }
+    console.log('outside bitch');
+    return (
+      <Fragment key={0}>
+      <View style={{ width: '100%', flexDirection: 'row' }}>
+        <View style={styles.text}>
+          <Text>{`There are no meetings in this time period...`}</Text>
+        </View>
+      </View>
+    </Fragment>
+    );
+  }
 
   
 

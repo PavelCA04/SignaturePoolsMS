@@ -16,7 +16,7 @@ const Modules = () => {
   const handleModuleClick = (moduleName, moduleRoute) => {
     Swal.fire({
       icon: 'info',
-      title: `You will be directed to the ${moduleName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}`,
+      title: `You will be redirected to the ${moduleName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}`,
       showConfirmButton: false,
       timer: 1500,
       customClass: {

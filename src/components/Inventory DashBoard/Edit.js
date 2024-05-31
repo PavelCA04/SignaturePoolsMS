@@ -27,7 +27,7 @@ const Edit = ({ items, selectedItem, setItems, setIsEditing, fetchData }) => {
     }
 
     async function updateItem() {
-      const url = `http://localhost:8080/api/v1/items/${id}`; // Replace with your actual API endpoint
+      const url = `${urlApi}items/${id}`; // Replace with your actual API endpoint
       try {
         const statusCode = await httpClient.put(url, {
           name,

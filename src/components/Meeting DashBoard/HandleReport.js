@@ -3,6 +3,7 @@ import { Page, Text, View, Document, StyleSheet, PDFViewer, pdf } from '@react-p
 import Swal from 'sweetalert2';
 import { httpClient } from '../../data';
 import DocumentPDF from './pdf/DocumentPDF';
+import { urlApi } from '../../config';
 
 
 const fileDocsvgIcon = `
@@ -57,9 +58,9 @@ const styles = StyleSheet.create({
 
 const buildURL = (startDate, endDate) => {
   if (startDate && endDate){
-    return `http://localhost:8080/api/v1/meetings?startDate='${startDate}'&endDate='${endDate}'`;
+    return `${urlApi}meetings?startDate='${startDate}'&endDate='${endDate}'`;
   }
-  return `http://localhost:8080/api/v1/meetings`;
+  return `${urlApi}meetings`;
 }
 
 const generatePdfReport = async (meetings, startDate, endDate) => {
@@ -73,6 +74,7 @@ const generatePdfReport = async (meetings, startDate, endDate) => {
 };
 
 const showGeneratePdfPopup = (meetingData) => {
+  let data;
   Swal.fire({
     title: 'Generate PDF Report',
     text: 'Select the date range for the meetings report.',
@@ -119,10 +121,7 @@ const showGeneratePdfPopup = (meetingData) => {
           });
           async function meetingsData() {
             try {
-              const data = await httpClient.get(buildURL(startDate, endDate));
-              if (data) {
-                generatePdfReport(data, startDate, endDate);
-              }
+              data = await httpClient.get(buildURL(startDate, endDate));
             } catch (error) {
               console.error(error);
             }
@@ -132,6 +131,7 @@ const showGeneratePdfPopup = (meetingData) => {
               Swal.fire({
                 icon: 'success',
                 title: 'PDF Generated',
+                confirmButtonText: 'Download Document',
                 customClass: {
                   popup: 'darkblue-popup',
                   confirmButton: 'swal2-cancel',
@@ -142,6 +142,10 @@ const showGeneratePdfPopup = (meetingData) => {
                   <p style="margin-top: 25px;">${'PDF Generated Successfully'}</p>
                 </div>
               `,
+              }).then(() => {
+                if (data) {
+                  generatePdfReport(data, startDate, endDate);
+                }
               })
             })
             .catch((errorMessage) => {
