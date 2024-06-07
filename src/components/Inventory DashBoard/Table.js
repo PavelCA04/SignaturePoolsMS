@@ -53,7 +53,7 @@ const Table = ({ items, handleEdit, handleDelete }) => {
             ))
           ) : (
             <tr>
-              <td colSpan={7}>No Item</td>
+              <td colSpan={7}>No Items</td>
             </tr>
           )}
         </tbody>
