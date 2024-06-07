@@ -135,7 +135,7 @@ const DocumentPDF = ({ data, startDate, endDate }) => {
       <Fragment key={0}>
       <View style={{ width: '100%', flexDirection: 'row' }}>
         <View style={styles.text}>
-          <Text>{`There are no meetings in this time period...`}</Text>
+          <Text>{`No meetings available in this predestined time period.`}</Text>
         </View>
       </View>
     </Fragment>

@@ -54,7 +54,7 @@ const Table = ({ meetings, handleEdit, handleDelete }) => {
             ))
           ) : (
             <tr>
-              <td colSpan={7}>No Meetings</td>
+              <td colSpan={7}>No Meetings Found.</td>
             </tr>
           )}
         </tbody>
